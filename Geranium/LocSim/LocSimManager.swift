@@ -52,10 +52,12 @@ struct EquatableCoordinate: Equatable {
 class LocationModel: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
     @Published var authorisationStatus: CLAuthorizationStatus = .notDetermined
+    @Published var currentLocation: CLLocation?
 
     override init() {
         super.init()
         self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
 
     public func requestAuthorisation(always: Bool = false) {
@@ -64,6 +66,7 @@ class LocationModel: NSObject, ObservableObject {
         } else {
             self.locationManager.requestWhenInUseAuthorization()
         }
+        locationManager.startUpdatingLocation()
     }
 }
 
@@ -71,5 +74,15 @@ extension LocationModel: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         self.authorisationStatus = status
+        if status == .authorizedWhenInUse || status == .authorizedAlways {
+            manager.startUpdatingLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        DispatchQueue.main.async {
+            self.currentLocation = location
+        }
     }
 }

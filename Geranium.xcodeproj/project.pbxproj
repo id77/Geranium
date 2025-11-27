@@ -8,48 +8,38 @@
 
 /* Begin PBXBuildFile section */
 		790301C12B377EA70044E30A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 790301C02B377EA70044E30A /* Localizable.xcstrings */; };
-		790301C52B3794480044E30A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790301C42B3794480044E30A /* SettingsView.swift */; };
-		790301C72B3794FF0044E30A /* DaemonWelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 790301C62B3794FF0044E30A /* DaemonWelcomeView.swift */; };
-		7916D9E42B34D9C4008E88F2 /* CurrentlyDisabledDaemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7916D9E32B34D9C4008E88F2 /* CurrentlyDisabledDaemonView.swift */; };
-		7916D9E62B34FC06008E88F2 /* Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7916D9E52B34FC06008E88F2 /* Paths.swift */; };
-		7918209A2B31F109007EEC24 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 791820992B31F109007EEC24 /* LogHelper.swift */; };
-		792845532B2C67910021E1FD /* FileCleaner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792845522B2C67910021E1FD /* FileCleaner.swift */; };
-		7928455A2B2C80A40021E1FD /* DaemonDisabler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 792845592B2C80A40021E1FD /* DaemonDisabler.swift */; };
 		7930B46D2B4B2AD800A5B0CB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7930B4592B4B267F00A5B0CB /* MobileCoreServices.framework */; };
 		7930B46E2B4B2ADD00A5B0CB /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 790301BC2B3774F90044E30A /* CoreServices.framework */; };
-		793E3D6F2B37AA1300A72671 /* BetaChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793E3D6E2B37AA1300A72671 /* BetaChecker.swift */; };
-		7956C4542B4DF122004D3A1A /* Beta.png in Resources */ = {isa = PBXBuildFile; fileRef = 7956C4532B4DF122004D3A1A /* Beta.png */; };
 		796072E02B4F4FAE00737B5D /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796072DF2B4F4FAE00737B5D /* UniformTypeIdentifiers.framework */; };
 		796072E32B4F4FAE00737B5D /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796072E22B4F4FAE00737B5D /* Media.xcassets */; };
 		796072E52B4F4FAE00737B5D /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796072E42B4F4FAE00737B5D /* ActionViewController.swift */; };
 		796072E82B4F4FAE00737B5D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 796072E62B4F4FAE00737B5D /* MainInterface.storyboard */; };
 		796072EC2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 796072DE2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		7969F91A2B5E57DE0010DBE5 /* AlertKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7969F9192B5E57DE0010DBE5 /* AlertKit */; };
-		7989FD032B347EEA00FBAB8D /* LocSimView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989FD022B347EEA00FBAB8D /* LocSimView.swift */; };
-		7989FD062B3486B100FBAB8D /* CustomMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989FD052B3486B100FBAB8D /* CustomMapView.swift */; };
-		7989FD082B34894400FBAB8D /* BookMarkSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989FD072B34894400FBAB8D /* BookMarkSlider.swift */; };
-		7989FD0A2B348A0200FBAB8D /* BookMarkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7989FD092B348A0200FBAB8D /* BookMarkHelper.swift */; };
 		799488A62B347E2C00AFFDCF /* LocSimManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799488A52B347E2C00AFFDCF /* LocSimManager.swift */; };
-		799D42462B553AF1001867E0 /* CustomPaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799D42452B553AF1001867E0 /* CustomPaths.swift */; };
-		79AEFBBD2B2CBC6B0074EC34 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79AEFBBC2B2CBC6B0074EC34 /* ProgressBar.swift */; };
-		79BA958A2B30D91600380D83 /* RootHelperMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79BA95892B30D91600380D83 /* RootHelperMan.swift */; };
-		79C28EF72B3F5C7100050A42 /* ByeTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C28EF62B3F5C7100050A42 /* ByeTimeView.swift */; };
-		79C28EF92B3F5ED800050A42 /* ByeTimeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79C28EF82B3F5ED800050A42 /* ByeTimeHelper.swift */; };
-		79D7891D2B41BDE700FEBD32 /* Bouquet.png in Resources */ = {isa = PBXBuildFile; fileRef = 79D7891C2B41BDE700FEBD32 /* Bouquet.png */; };
-		79D7891F2B41BEA600FEBD32 /* Flore.png in Resources */ = {isa = PBXBuildFile; fileRef = 79D7891E2B41BEA600FEBD32 /* Flore.png */; };
-		79DF26992B31C90C005D81D2 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79DF26982B31C90C005D81D2 /* WelcomeView.swift */; };
-		79FDECC92B878F4700B2DFB0 /* NotifHelp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79FDECC82B878F4700B2DFB0 /* NotifHelp.swift */; };
 		F82C58042E37786D00F76DFA /* CoordTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82C58032E37786D00F76DFA /* CoordTransform.swift */; };
 		FAA456D52B265FEA00FC7287 /* GeraniumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA456D42B265FEA00FC7287 /* GeraniumApp.swift */; };
 		FAA456D72B265FEA00FC7287 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA456D62B265FEA00FC7287 /* ContentView.swift */; };
 		FAA456D92B265FEC00FC7287 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA456D82B265FEC00FC7287 /* Assets.xcassets */; };
 		FAA456DC2B265FEC00FC7287 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA456DB2B265FEC00FC7287 /* Preview Assets.xcassets */; };
-		FAA457122B2661E300FC7287 /* TSUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA457102B2661E300FC7287 /* TSUtil.m */; };
 		FAA457232B26654700FC7287 /* Addon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA457222B26654700FC7287 /* Addon.swift */; };
-		FAA457272B26667E00FC7287 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA457262B26667E00FC7287 /* HomeView.swift */; };
-		FAA457292B26668900FC7287 /* DaemonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA457282B26668900FC7287 /* DaemonView.swift */; };
-		FAA457302B2666F300FC7287 /* CleanerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA4572F2B2666F300FC7287 /* CleanerView.swift */; };
-		FAA457322B2667CB00FC7287 /* SuperviseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA457312B2667CB00FC7287 /* SuperviseView.swift */; };
+		7F5B52E184854CC7B0482253 /* LocationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */; };
+		7002B0DAE1CB4BB7852C6BF6 /* LocationSpoofingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */; };
+		991F25A3C174462C9278E41B /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD846665F7420EA427A2D2 /* Bookmark.swift */; };
+		F59FE641C91349D99152FA8F /* BookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C8419330A04C1084B5A7FB /* BookmarkStore.swift */; };
+		7D89B5874C494E589F3B01EF /* LocSimSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1C9E472EC4E369A368682 /* LocSimSettings.swift */; };
+		7460C665F5FE440699E2380C /* LocSimAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */; };
+		6C64D385951749AC917E2FF6 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A4BD6530C437EA975C055 /* MapViewModel.swift */; };
+		347BEE85373749BDA28EFB0B /* BookmarksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */; };
+		0719A2FDD3F943368311230F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3647223994004DCC998E05D8 /* SettingsViewModel.swift */; };
+		67527A7DB28B4FF6BA5B85B4 /* BookmarkEditorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */; };
+		994EDB43E82B4DEBAE2D99A4 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE47062E3D4CE792CD8051 /* MainTabView.swift */; };
+		E90E4FCDF6B641E28BB3A0D2 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD26C6925443D29C895557 /* MapScreen.swift */; };
+		363B452057D84096BF4DA3FE /* MapCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */; };
+		3CF769C315BC461BBC34D2FA /* BookmarksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */; };
+		2AE2A2061A2C4050BC62164E /* BookmarkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */; };
+		11A101A58C814A5FB0B57E9C /* BookmarkEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */; };
+		8E4ADBAEBAD243FE9045D0D1 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23720092DB2C4D7BA6148776 /* SettingsScreen.swift */; };
+		5494540E0365446BAFCA858B /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF190F714203472D9665EAC0 /* StatusBadge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,16 +84,7 @@
 		790301BA2B37747A0044E30A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		790301BC2B3774F90044E30A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		790301C02B377EA70044E30A /* Localizable.xcstrings */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; tabWidth = 2; };
-		790301C42B3794480044E30A /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		790301C62B3794FF0044E30A /* DaemonWelcomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DaemonWelcomeView.swift; sourceTree = "<group>"; };
-		7916D9E32B34D9C4008E88F2 /* CurrentlyDisabledDaemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentlyDisabledDaemonView.swift; sourceTree = "<group>"; };
-		7916D9E52B34FC06008E88F2 /* Paths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Paths.swift; sourceTree = "<group>"; };
-		791820992B31F109007EEC24 /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
-		792845522B2C67910021E1FD /* FileCleaner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCleaner.swift; sourceTree = "<group>"; };
-		792845592B2C80A40021E1FD /* DaemonDisabler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonDisabler.swift; sourceTree = "<group>"; };
 		7930B4592B4B267F00A5B0CB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		793E3D6E2B37AA1300A72671 /* BetaChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetaChecker.swift; sourceTree = "<group>"; };
-		7956C4532B4DF122004D3A1A /* Beta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Beta.png; sourceTree = "<group>"; };
 		796072DE2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Bookmark Location in Geranium.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		796072DF2B4F4FAE00737B5D /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		796072E22B4F4FAE00737B5D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
@@ -112,21 +93,8 @@
 		796072E92B4F4FAE00737B5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		796072F12B4F5A7A00737B5D /* Geranium.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Geranium.entitlements; sourceTree = "<group>"; };
 		796072F22B4F616B00737B5D /* Bookmark Location in Geranium.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bookmark Location in Geranium.entitlements"; sourceTree = "<group>"; };
-		7989FD022B347EEA00FBAB8D /* LocSimView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimView.swift; sourceTree = "<group>"; };
-		7989FD052B3486B100FBAB8D /* CustomMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMapView.swift; sourceTree = "<group>"; };
-		7989FD072B34894400FBAB8D /* BookMarkSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkSlider.swift; sourceTree = "<group>"; };
-		7989FD092B348A0200FBAB8D /* BookMarkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkHelper.swift; sourceTree = "<group>"; };
 		799488A52B347E2C00AFFDCF /* LocSimManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocSimManager.swift; sourceTree = "<group>"; };
 		799488A72B347E2F00AFFDCF /* LocSimPrivateHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocSimPrivateHeaders.h; sourceTree = "<group>"; };
-		799D42452B553AF1001867E0 /* CustomPaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPaths.swift; sourceTree = "<group>"; };
-		79AEFBBC2B2CBC6B0074EC34 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
-		79BA95892B30D91600380D83 /* RootHelperMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootHelperMan.swift; sourceTree = "<group>"; };
-		79C28EF62B3F5C7100050A42 /* ByeTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByeTimeView.swift; sourceTree = "<group>"; };
-		79C28EF82B3F5ED800050A42 /* ByeTimeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ByeTimeHelper.swift; sourceTree = "<group>"; };
-		79D7891C2B41BDE700FEBD32 /* Bouquet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bouquet.png; sourceTree = "<group>"; };
-		79D7891E2B41BEA600FEBD32 /* Flore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Flore.png; sourceTree = "<group>"; };
-		79DF26982B31C90C005D81D2 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
-		79FDECC82B878F4700B2DFB0 /* NotifHelp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifHelp.swift; sourceTree = "<group>"; };
 		F82C58032E37786D00F76DFA /* CoordTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordTransform.swift; sourceTree = "<group>"; };
 		FAA456D12B265FEA00FC7287 /* Geranium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Geranium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA456D42B265FEA00FC7287 /* GeraniumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeraniumApp.swift; sourceTree = "<group>"; };
@@ -136,14 +104,25 @@
 		FAA456E12B265FED00FC7287 /* GeraniumTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeraniumTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA456EB2B265FED00FC7287 /* GeraniumUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeraniumUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA457042B2660AC00FC7287 /* Geranium-Bringing-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Geranium-Bringing-Header.h"; sourceTree = "<group>"; };
-		FAA4570F2B2661E200FC7287 /* CoreServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreServices.h; sourceTree = "<group>"; };
-		FAA457102B2661E300FC7287 /* TSUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSUtil.m; sourceTree = "<group>"; };
-		FAA457112B2661E300FC7287 /* TSUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSUtil.h; sourceTree = "<group>"; };
 		FAA457222B26654700FC7287 /* Addon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addon.swift; sourceTree = "<group>"; };
-		FAA457262B26667E00FC7287 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		FAA457282B26668900FC7287 /* DaemonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaemonView.swift; sourceTree = "<group>"; };
-		FAA4572F2B2666F300FC7287 /* CleanerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CleanerView.swift; sourceTree = "<group>"; };
-		FAA457312B2667CB00FC7287 /* SuperviseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperviseView.swift; sourceTree = "<group>"; };
+		EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModels.swift; sourceTree = "<group>"; };
+		C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSpoofingEngine.swift; sourceTree = "<group>"; };
+		2BBD846665F7420EA427A2D2 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		15C8419330A04C1084B5A7FB /* BookmarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkStore.swift; sourceTree = "<group>"; };
+		36F1C9E472EC4E369A368682 /* LocSimSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimSettings.swift; sourceTree = "<group>"; };
+		2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimAppModel.swift; sourceTree = "<group>"; };
+		8C4A4BD6530C437EA975C055 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewModel.swift; sourceTree = "<group>"; };
+		3647223994004DCC998E05D8 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditorMode.swift; sourceTree = "<group>"; };
+		93CE47062E3D4CE792CD8051 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		30FD26C6925443D29C895557 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCanvasView.swift; sourceTree = "<group>"; };
+		58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksScreen.swift; sourceTree = "<group>"; };
+		4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardView.swift; sourceTree = "<group>"; };
+		A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditorView.swift; sourceTree = "<group>"; };
+		23720092DB2C4D7BA6148776 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		EF190F714203472D9665EAC0 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,7 +140,6 @@
 			files = (
 				7930B46D2B4B2AD800A5B0CB /* MobileCoreServices.framework in Frameworks */,
 				7930B46E2B4B2ADD00A5B0CB /* CoreServices.framework in Frameworks */,
-				7969F91A2B5E57DE0010DBE5 /* AlertKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,45 +191,14 @@
 			path = "Bookmark Location in Geranium";
 			sourceTree = "<group>";
 		};
-		7989FD0B2B348A8600FBAB8D /* BookMark */ = {
-			isa = PBXGroup;
-			children = (
-				7989FD092B348A0200FBAB8D /* BookMarkHelper.swift */,
-				7989FD072B34894400FBAB8D /* BookMarkSlider.swift */,
-			);
-			path = BookMark;
-			sourceTree = "<group>";
-		};
 		799488A42B347E1100AFFDCF /* LocSim */ = {
 			isa = PBXGroup;
 			children = (
 				F82C58032E37786D00F76DFA /* CoordTransform.swift */,
-				7989FD0B2B348A8600FBAB8D /* BookMark */,
-				7989FD052B3486B100FBAB8D /* CustomMapView.swift */,
-				799488A52B347E2C00AFFDCF /* LocSimManager.swift */,
+					799488A52B347E2C00AFFDCF /* LocSimManager.swift */,
 				799488A72B347E2F00AFFDCF /* LocSimPrivateHeaders.h */,
-				7989FD022B347EEA00FBAB8D /* LocSimView.swift */,
 			);
 			path = LocSim;
-			sourceTree = "<group>";
-		};
-		79C28EF52B3F5C5700050A42 /* ByeTime */ = {
-			isa = PBXGroup;
-			children = (
-				79C28EF62B3F5C7100050A42 /* ByeTimeView.swift */,
-				79C28EF82B3F5ED800050A42 /* ByeTimeHelper.swift */,
-			);
-			path = ByeTime;
-			sourceTree = "<group>";
-		};
-		79D789072B40930A00FEBD32 /* Icons */ = {
-			isa = PBXGroup;
-			children = (
-				7956C4532B4DF122004D3A1A /* Beta.png */,
-				79D7891E2B41BEA600FEBD32 /* Flore.png */,
-				79D7891C2B41BDE700FEBD32 /* Bouquet.png */,
-			);
-			path = Icons;
 			sourceTree = "<group>";
 		};
 		FAA456C82B265FEA00FC7287 = {
@@ -282,19 +229,15 @@
 				FAA456D42B265FEA00FC7287 /* GeraniumApp.swift */,
 				FAA457042B2660AC00FC7287 /* Geranium-Bringing-Header.h */,
 				FAA457052B2661AD00FC7287 /* Libs */,
-				793E3D6E2B37AA1300A72671 /* BetaChecker.swift */,
 				FAA456D62B265FEA00FC7287 /* ContentView.swift */,
-				FAA457262B26667E00FC7287 /* HomeView.swift */,
-				790301C42B3794480044E30A /* SettingsView.swift */,
-				79DF26982B31C90C005D81D2 /* WelcomeView.swift */,
-				FAA4572E2B2666E800FC7287 /* Cleaner */,
-				FAA4572A2B26669100FC7287 /* DaemonMan */,
 				799488A42B347E1100AFFDCF /* LocSim */,
-				79C28EF52B3F5C5700050A42 /* ByeTime */,
-				FAA4572B2B26669B00FC7287 /* The Supviser */,
+				8B3695A81CE34B0EACDA93FE /* Core */,
+				F94D8153F44949689FF2EEF9 /* Data */,
+				D72758EF572141B7A3664B02 /* Support */,
+				39425223504849A5913BEEEF /* ViewModels */,
+				DF71C8A52D834423A6ADC3D2 /* UI */,
 				790301BF2B377E850044E30A /* Translations */,
 				FAA456D82B265FEC00FC7287 /* Assets.xcassets */,
-				79D789072B40930A00FEBD32 /* Icons */,
 				FAA456DA2B265FEC00FC7287 /* Preview Content */,
 			);
 			path = Geranium;
@@ -312,53 +255,117 @@
 			isa = PBXGroup;
 			children = (
 				FAA457222B26654700FC7287 /* Addon.swift */,
-				791820992B31F109007EEC24 /* LogHelper.swift */,
-				79BA95892B30D91600380D83 /* RootHelperMan.swift */,
-				FAA4570E2B2661D200FC7287 /* TrollStore */,
 			);
 			path = Libs;
 			sourceTree = "<group>";
 		};
-		FAA4570E2B2661D200FC7287 /* TrollStore */ = {
+		8B3695A81CE34B0EACDA93FE /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				FAA4570F2B2661E200FC7287 /* CoreServices.h */,
-				FAA457112B2661E300FC7287 /* TSUtil.h */,
-				FAA457102B2661E300FC7287 /* TSUtil.m */,
+				7F980CD8F9CD46E490FBAFD7 /* Location */,
 			);
-			path = TrollStore;
+			path = Core;
 			sourceTree = "<group>";
 		};
-		FAA4572A2B26669100FC7287 /* DaemonMan */ = {
+		7F980CD8F9CD46E490FBAFD7 /* Location */ = {
 			isa = PBXGroup;
 			children = (
-				7916D9E32B34D9C4008E88F2 /* CurrentlyDisabledDaemonView.swift */,
-				792845592B2C80A40021E1FD /* DaemonDisabler.swift */,
-				FAA457282B26668900FC7287 /* DaemonView.swift */,
-				790301C62B3794FF0044E30A /* DaemonWelcomeView.swift */,
+				EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */,
+				C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */,
 			);
-			path = DaemonMan;
+			path = Location;
 			sourceTree = "<group>";
 		};
-		FAA4572B2B26669B00FC7287 /* The Supviser */ = {
+		F94D8153F44949689FF2EEF9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				FAA457312B2667CB00FC7287 /* SuperviseView.swift */,
+				39C16911496D428C95464AF0 /* Bookmarks */,
 			);
-			path = "The Supviser";
+			path = Data;
 			sourceTree = "<group>";
 		};
-		FAA4572E2B2666E800FC7287 /* Cleaner */ = {
+		39C16911496D428C95464AF0 /* Bookmarks */ = {
 			isa = PBXGroup;
 			children = (
-				FAA4572F2B2666F300FC7287 /* CleanerView.swift */,
-				79FDECC82B878F4700B2DFB0 /* NotifHelp.swift */,
-				792845522B2C67910021E1FD /* FileCleaner.swift */,
-				799D42452B553AF1001867E0 /* CustomPaths.swift */,
-				7916D9E52B34FC06008E88F2 /* Paths.swift */,
-				79AEFBBC2B2CBC6B0074EC34 /* ProgressBar.swift */,
+				2BBD846665F7420EA427A2D2 /* Bookmark.swift */,
+				15C8419330A04C1084B5A7FB /* BookmarkStore.swift */,
 			);
-			path = Cleaner;
+			path = Bookmarks;
+			sourceTree = "<group>";
+		};
+		D72758EF572141B7A3664B02 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				36F1C9E472EC4E369A368682 /* LocSimSettings.swift */,
+				2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		39425223504849A5913BEEEF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8C4A4BD6530C437EA975C055 /* MapViewModel.swift */,
+				48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */,
+				3647223994004DCC998E05D8 /* SettingsViewModel.swift */,
+				87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DF71C8A52D834423A6ADC3D2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				BD7DD6BEE17E4091836908D8 /* Components */,
+				9BF814590F1F40CB827AE377 /* Main */,
+				4B0BD4956901491A8C3F12A6 /* Map */,
+				DF235EBBD1774397BFE2F05F /* Bookmarks */,
+				6BFEB8FF256944978FB956EE /* Settings */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		BD7DD6BEE17E4091836908D8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				EF190F714203472D9665EAC0 /* StatusBadge.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9BF814590F1F40CB827AE377 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				93CE47062E3D4CE792CD8051 /* MainTabView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		4B0BD4956901491A8C3F12A6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				30FD26C6925443D29C895557 /* MapScreen.swift */,
+				77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		DF235EBBD1774397BFE2F05F /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */,
+				4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */,
+				A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */,
+			);
+			path = Bookmarks;
+			sourceTree = "<group>";
+		};
+		6BFEB8FF256944978FB956EE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				23720092DB2C4D7BA6148776 /* SettingsScreen.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -397,7 +404,6 @@
 			);
 			name = Geranium;
 			packageProductDependencies = (
-				7969F9192B5E57DE0010DBE5 /* AlertKit */,
 			);
 			productName = Geranium;
 			productReference = FAA456D12B265FEA00FC7287 /* Geranium.app */;
@@ -493,7 +499,6 @@
 			);
 			mainGroup = FAA456C82B265FEA00FC7287;
 			packageReferences = (
-				7969F9182B5E57DE0010DBE5 /* XCRemoteSwiftPackageReference "AlertKit" */,
 			);
 			productRefGroup = FAA456D22B265FEA00FC7287 /* Products */;
 			projectDirPath = "";
@@ -524,9 +529,6 @@
 				FAA456DC2B265FEC00FC7287 /* Preview Assets.xcassets in Resources */,
 				FAA456D92B265FEC00FC7287 /* Assets.xcassets in Resources */,
 				790301C12B377EA70044E30A /* Localizable.xcstrings in Resources */,
-				79D7891F2B41BEA600FEBD32 /* Flore.png in Resources */,
-				79D7891D2B41BDE700FEBD32 /* Bouquet.png in Resources */,
-				7956C4542B4DF122004D3A1A /* Beta.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,35 +561,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				793E3D6F2B37AA1300A72671 /* BetaChecker.swift in Sources */,
-				7989FD082B34894400FBAB8D /* BookMarkSlider.swift in Sources */,
-				7916D9E62B34FC06008E88F2 /* Paths.swift in Sources */,
-				79FDECC92B878F4700B2DFB0 /* NotifHelp.swift in Sources */,
-				7916D9E42B34D9C4008E88F2 /* CurrentlyDisabledDaemonView.swift in Sources */,
-				FAA457122B2661E300FC7287 /* TSUtil.m in Sources */,
-				7989FD062B3486B100FBAB8D /* CustomMapView.swift in Sources */,
-				FAA457272B26667E00FC7287 /* HomeView.swift in Sources */,
-				FAA457292B26668900FC7287 /* DaemonView.swift in Sources */,
-				790301C72B3794FF0044E30A /* DaemonWelcomeView.swift in Sources */,
 				FAA457232B26654700FC7287 /* Addon.swift in Sources */,
 				F82C58042E37786D00F76DFA /* CoordTransform.swift in Sources */,
-				790301C52B3794480044E30A /* SettingsView.swift in Sources */,
-				79DF26992B31C90C005D81D2 /* WelcomeView.swift in Sources */,
-				7989FD032B347EEA00FBAB8D /* LocSimView.swift in Sources */,
-				FAA457322B2667CB00FC7287 /* SuperviseView.swift in Sources */,
-				792845532B2C67910021E1FD /* FileCleaner.swift in Sources */,
 				799488A62B347E2C00AFFDCF /* LocSimManager.swift in Sources */,
-				79C28EF72B3F5C7100050A42 /* ByeTimeView.swift in Sources */,
 				FAA456D72B265FEA00FC7287 /* ContentView.swift in Sources */,
-				7918209A2B31F109007EEC24 /* LogHelper.swift in Sources */,
-				7928455A2B2C80A40021E1FD /* DaemonDisabler.swift in Sources */,
-				7989FD0A2B348A0200FBAB8D /* BookMarkHelper.swift in Sources */,
 				FAA456D52B265FEA00FC7287 /* GeraniumApp.swift in Sources */,
-				79AEFBBD2B2CBC6B0074EC34 /* ProgressBar.swift in Sources */,
-				79BA958A2B30D91600380D83 /* RootHelperMan.swift in Sources */,
-				FAA457302B2666F300FC7287 /* CleanerView.swift in Sources */,
-				79C28EF92B3F5ED800050A42 /* ByeTimeHelper.swift in Sources */,
-				799D42462B553AF1001867E0 /* CustomPaths.swift in Sources */,
+				7F5B52E184854CC7B0482253 /* LocationModels.swift in Sources */,
+				7002B0DAE1CB4BB7852C6BF6 /* LocationSpoofingEngine.swift in Sources */,
+				991F25A3C174462C9278E41B /* Bookmark.swift in Sources */,
+				F59FE641C91349D99152FA8F /* BookmarkStore.swift in Sources */,
+				7D89B5874C494E589F3B01EF /* LocSimSettings.swift in Sources */,
+				7460C665F5FE440699E2380C /* LocSimAppModel.swift in Sources */,
+				6C64D385951749AC917E2FF6 /* MapViewModel.swift in Sources */,
+				347BEE85373749BDA28EFB0B /* BookmarksViewModel.swift in Sources */,
+				0719A2FDD3F943368311230F /* SettingsViewModel.swift in Sources */,
+				67527A7DB28B4FF6BA5B85B4 /* BookmarkEditorMode.swift in Sources */,
+				994EDB43E82B4DEBAE2D99A4 /* MainTabView.swift in Sources */,
+				E90E4FCDF6B641E28BB3A0D2 /* MapScreen.swift in Sources */,
+				363B452057D84096BF4DA3FE /* MapCanvasView.swift in Sources */,
+				3CF769C315BC461BBC34D2FA /* BookmarksScreen.swift in Sources */,
+				2AE2A2061A2C4050BC62164E /* BookmarkCardView.swift in Sources */,
+				11A101A58C814A5FB0B57E9C /* BookmarkEditorView.swift in Sources */,
+				8E4ADBAEBAD243FE9045D0D1 /* SettingsScreen.swift in Sources */,
+				5494540E0365446BAFCA858B /* StatusBadge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,7 +651,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "live.cclerc.geranium.Bookmark-Location-in-Geranium";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -683,7 +679,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "live.cclerc.geranium.Bookmark-Location-in-Geranium";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -843,7 +839,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = live.cclerc.geranium;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -882,7 +878,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = live.cclerc.geranium;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -902,7 +898,7 @@
 				DEVELOPMENT_TEAM = 7G89J82G2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = live.cclerc.GeraniumTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -922,7 +918,7 @@
 				DEVELOPMENT_TEAM = 7G89J82G2A;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = live.cclerc.GeraniumTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -940,7 +936,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7G89J82G2A;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = live.cclerc.GeraniumUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -958,7 +954,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7G89J82G2A;
 				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = live.cclerc.GeraniumUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1018,23 +1014,8 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		7969F9182B5E57DE0010DBE5 /* XCRemoteSwiftPackageReference "AlertKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sparrowcode/AlertKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.8;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
-/* Begin XCSwiftPackageProductDependency section */
-		7969F9192B5E57DE0010DBE5 /* AlertKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 7969F9182B5E57DE0010DBE5 /* XCRemoteSwiftPackageReference "AlertKit" */;
-			productName = AlertKit;
-		};
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAA456C92B265FEA00FC7287 /* Project object */;

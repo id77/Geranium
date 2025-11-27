@@ -60,7 +60,7 @@ Want to supervise your device with a custom organization name but don't have a c
 ## Build Instructions
 Requirements : A Mac having Xcode installed (it can also be a Hackintosh).
 1. Clone this repository (make sure you don't download it as zip but clone it!):
-   ```git clone https://github.com/c22dev/Geranium/```
+   ```git clone https://github.com/Wtrwx/Geranium/```
 2. [Install Theos and it's requirements](https://theos.dev/docs/installation-macos)
 4. Ensure you have the [iPhoneOS14.5.sdk SDK](https://github.com/theos/sdks/tree/master/iPhoneOS14.5.sdk) installed
 5. Run ```./ipabuild.sh```

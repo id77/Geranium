@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 import UIKit
+import Darwin
 
 struct MaterialView: UIViewRepresentable {
     let material: UIBlurEffect.Style
@@ -102,6 +103,28 @@ func exitGracefully() {
     Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
         exit(0)
     }
+}
+
+@discardableResult
+func killall(_ process: String) -> Int32 {
+    let path = "/usr/bin/killall"
+    var pid = pid_t()
+    var args: [UnsafeMutablePointer<CChar>?] = [strdup(path), strdup(process), nil]
+    defer {
+        for pointer in args where pointer != nil {
+            free(pointer)
+        }
+    }
+    let spawnResult = args.withUnsafeMutableBufferPointer { buffer -> Int32 in
+        guard let baseAddress = buffer.baseAddress else { return EINVAL }
+        return posix_spawn(&pid, path, nil, nil, baseAddress, environ)
+    }
+    if spawnResult == 0 {
+        var status: Int32 = 0
+        waitpid(pid, &status, 0)
+        return status
+    }
+    return spawnResult
 }
 
 
