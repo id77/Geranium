@@ -7,6 +7,9 @@
 
 import SwiftUI
 import MapKit
+#if canImport(UIKit)
+import UIKit
+#endif
 
 struct MapScreen: View {
     @ObservedObject var viewModel: MapViewModel
@@ -18,7 +21,10 @@ struct MapScreen: View {
             MapCanvasView(region: $viewModel.mapRegion,
                           selectedCoordinate: viewModel.selectedLocation?.coordinate,
                           activeCoordinate: viewModel.activeLocation?.coordinate,
-                          onTap: viewModel.handleMapTap,
+                          onTap: { coordinate in
+                              dismissKeyboard()
+                              viewModel.handleMapTap(coordinate)
+                          },
                           onRegionChange: viewModel.updateMapCenter)
             .ignoresSafeArea(edges: [.top])
 
@@ -30,7 +36,10 @@ struct MapScreen: View {
                     ProgressView("正在搜索…")
                         .padding(.horizontal)
                 } else if viewModel.showSearchResults && !viewModel.searchResults.isEmpty {
-                    SearchResultList(results: viewModel.searchResults, onSelect: viewModel.selectSearchResult)
+                    SearchResultList(results: viewModel.searchResults, onSelect: { result in
+                        dismissKeyboard()
+                        viewModel.selectSearchResult(result)
+                    })
                         .padding(.horizontal)
                 }
 
@@ -67,9 +76,27 @@ struct MapScreen: View {
                 viewModel.clearSearch()
             }
         }
+        .toolbar {
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()
+                Button("完成") {
+                    dismissKeyboard()
+                }
+            }
+        }
         .onAppear {
             viewModel.requestLocationPermission()
         }
+    }
+
+    private func dismissKeyboard() {
+        searchFocused = false
+        #if canImport(UIKit)
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                        to: nil,
+                                        from: nil,
+                                        for: nil)
+        #endif
     }
 
     private var searchBar: some View {
@@ -77,6 +104,7 @@ struct MapScreen: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.secondary)
             TextField("搜索地点", text: $viewModel.searchText, onCommit: {
+                dismissKeyboard()
                 viewModel.performSearch()
             })
             .textInputAutocapitalization(.never)
