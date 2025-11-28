@@ -30,9 +30,15 @@ jobs:
           mkdir -p $HOME/theos/sdks
           cd $HOME/theos/sdks
           if [ ! -d "iPhoneOS14.5.sdk" ]; then
-            curl -LO https://github.com/theos/sdks/releases/download/master/iPhoneOS14.5.sdk.tar.xz
-            tar -xf iPhoneOS14.5.sdk.tar.xz
-            rm iPhoneOS14.5.sdk.tar.xz
+            curl -LO https://github.com/theos/sdks/archive/master.zip
+            unzip -q master.zip
+            mv sdks-master/iPhoneOS14.5.sdk ./ 2>/dev/null || true
+            if [ ! -d "iPhoneOS14.5.sdk" ]; then
+              # Fallback: use Xcode's SDK
+              XCODE_SDK_PATH=$(xcrun --sdk iphoneos --show-sdk-path)
+              ln -s "$XCODE_SDK_PATH" iPhoneOS14.5.sdk
+            fi
+            rm -rf master.zip sdks-master
           fi
 
       - name: Install dependencies
