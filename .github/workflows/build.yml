@@ -25,6 +25,16 @@ jobs:
           fi
           echo "THEOS=$HOME/theos" >> $GITHUB_ENV
 
+      - name: Download iOS SDK 14.5
+        run: |
+          mkdir -p $HOME/theos/sdks
+          cd $HOME/theos/sdks
+          if [ ! -d "iPhoneOS14.5.sdk" ]; then
+            curl -LO https://github.com/theos/sdks/releases/download/master/iPhoneOS14.5.sdk.tar.xz
+            tar -xf iPhoneOS14.5.sdk.tar.xz
+            rm iPhoneOS14.5.sdk.tar.xz
+          fi
+
       - name: Install dependencies
         run: |
           brew install ldid
