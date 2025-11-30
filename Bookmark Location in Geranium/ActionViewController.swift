@@ -2,6 +2,7 @@ import UIKit
 import SwiftUI
 import MobileCoreServices
 import UniformTypeIdentifiers
+import CoreLocation
 
 class ActionViewController: UIViewController {
 
@@ -9,6 +10,8 @@ class ActionViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     var latitudeDouble: Double = 0.0
     var longitudeDouble: Double = 0.0
+    let geocoder = CLGeocoder()
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -36,14 +39,39 @@ class ActionViewController: UIViewController {
                                let longitude = self.getParameter(from: url, key: "ll")?.components(separatedBy: ",").last,
                                let latitudeDouble = Double(latitude),
                                let longitudeDouble = Double(longitude) {
-                                DispatchQueue.main.async {
-                                    let bookmarkName = self.textField.text
-                                    print(self.BookMarkSave(lat: latitudeDouble, long: longitudeDouble, name: bookmarkName ?? ""))
 
-                                    // 打开主应用的收藏界面
-                                    self.openMainApp()
+                                // 获取地点名称（如果URL中包含）
+                                let urlPlaceName = self.getParameter(from: url, key: "q")
 
-                                    self.done()
+                                // 进行反向地理编码以获取详细地址
+                                let location = CLLocation(latitude: latitudeDouble, longitude: longitudeDouble)
+                                self.geocoder.reverseGeocodeLocation(location) { placemarks, error in
+                                    DispatchQueue.main.async {
+                                        var placeName = urlPlaceName
+
+                                        // 如果URL中没有地点名称，尝试从地理编码结果获取
+                                        if placeName == nil || placeName?.isEmpty == true {
+                                            if let placemark = placemarks?.first {
+                                                // 优先使用 name，其次是 thoroughfare（街道）
+                                                placeName = placemark.name ?? placemark.thoroughfare
+                                            }
+                                        }
+
+                                        // 如果有地点名称且输入框为空，则自动填充
+                                        if let name = placeName, !name.isEmpty,
+                                           self.textField.text?.isEmpty ?? true {
+                                            self.textField.text = name
+                                        }
+
+                                        // 保存书签
+                                        let bookmarkName = self.textField.text
+                                        print(self.BookMarkSave(lat: latitudeDouble, long: longitudeDouble, name: bookmarkName ?? ""))
+
+                                        // 打开主应用的收藏界面
+                                        self.openMainApp()
+
+                                        self.done()
+                                    }
                                 }
                             }
                         }
