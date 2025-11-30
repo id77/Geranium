@@ -206,6 +206,15 @@ final class MapViewModel: ObservableObject {
         searchTask?.cancel()
     }
 
+    func centerOnCurrentLocation() {
+        guard let location = locationAuthorizer.currentLocation else {
+            errorMessage = "无法获取当前位置，请确保已授予位置权限"
+            showErrorAlert = true
+            return
+        }
+        centerMap(on: location.coordinate)
+    }
+
     private func startSpoofing(point: LocationPoint, bookmark: Bookmark?) {
         engine.startSpoofing(point: point)
         if let bookmark {

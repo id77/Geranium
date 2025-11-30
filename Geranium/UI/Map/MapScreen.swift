@@ -52,6 +52,7 @@ struct MapScreen: View {
                     .padding()
             }
 
+            FloatingLocationButton(action: viewModel.centerOnCurrentLocation)
             FloatingAddButton(action: viewModel.openBookmarkCreator)
         }
         .alert(isPresented: $viewModel.showErrorAlert) {
@@ -184,6 +185,29 @@ private struct FloatingAddButton: View {
                 }
                 .padding(.trailing, 24)
                 .padding(.bottom, 120)
+            }
+        }
+    }
+}
+
+private struct FloatingLocationButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: action) {
+                    Image(systemName: "location.fill")
+                        .font(.title2)
+                        .foregroundColor(.white)
+                        .padding(18)
+                        .background(Color.accentColor, in: Circle())
+                        .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
+                }
+                .padding(.trailing, 24)
+                .padding(.bottom, 200)
             }
         }
     }
