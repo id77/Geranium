@@ -44,7 +44,12 @@ final class BookmarksViewModel: ObservableObject {
     }
 
     func select(_ bookmark: Bookmark) {
-        mapViewModel.focus(on: bookmark, autoStartOverride: settings.autoStartFromBookmarks)
+        // 如果点击的是当前正在使用的收藏，则停止模拟
+        if bookmark.id == store.lastUsedBookmarkID {
+            mapViewModel.stopSpoofing()
+        } else {
+            mapViewModel.focus(on: bookmark, autoStartOverride: settings.autoStartFromBookmarks)
+        }
     }
 
     func deleteBookmarks(at offsets: IndexSet) {
