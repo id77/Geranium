@@ -30,7 +30,8 @@ struct BookmarkEditorView: View {
             _latitude = State(initialValue: String(bookmark.coordinate.latitude))
             _longitude = State(initialValue: String(bookmark.coordinate.longitude))
         } else if let seed = mode.seedLocation {
-            _name = State(initialValue: "")
+            // 自动填充地点名称和详细地址
+            _name = State(initialValue: seed.label ?? "")
             _note = State(initialValue: seed.note ?? "")
             _latitude = State(initialValue: String(seed.latitude))
             _longitude = State(initialValue: String(seed.longitude))

@@ -99,9 +99,60 @@ final class MapViewModel: ObservableObject {
     }
 
     func handleMapTap(_ coordinate: CLLocationCoordinate2D) {
-        selectedLocation = LocationPoint(coordinate: coordinate, label: nil)
+        // 先设置一个临时的位置点
+        selectedLocation = LocationPoint(coordinate: coordinate, label: "正在获取地址...")
         if settings.autoCenterOnSelection {
             centerMap(on: coordinate)
+        }
+
+        // 进行反向地理编码以获取地点名称和详细地址
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let geocoder = CLGeocoder()
+
+        Task { @MainActor in
+            do {
+                let placemarks = try await geocoder.reverseGeocodeLocation(location)
+                if let placemark = placemarks.first {
+                    // 获取地点名称
+                    let name = placemark.name ?? placemark.thoroughfare ?? "选中位置"
+
+                    // 构建详细地址（省市区街道）
+                    var addressComponents: [String] = []
+                    if let country = placemark.country {
+                        addressComponents.append(country)
+                    }
+                    if let administrativeArea = placemark.administrativeArea {
+                        addressComponents.append(administrativeArea)
+                    }
+                    if let locality = placemark.locality {
+                        addressComponents.append(locality)
+                    }
+                    if let subLocality = placemark.subLocality {
+                        addressComponents.append(subLocality)
+                    }
+                    if let thoroughfare = placemark.thoroughfare {
+                        addressComponents.append(thoroughfare)
+                    }
+                    if let subThoroughfare = placemark.subThoroughfare {
+                        addressComponents.append(subThoroughfare)
+                    }
+
+                    let detailedAddress = addressComponents.joined(separator: " ")
+
+                    // 更新选中的位置点，包含地点名称和详细地址
+                    selectedLocation = LocationPoint(
+                        coordinate: coordinate,
+                        label: name,
+                        note: detailedAddress.isEmpty ? nil : detailedAddress
+                    )
+                } else {
+                    // 如果没有获取到地址信息，使用默认名称
+                    selectedLocation = LocationPoint(coordinate: coordinate, label: "选中位置")
+                }
+            } catch {
+                // 地理编码失败，使用默认名称
+                selectedLocation = LocationPoint(coordinate: coordinate, label: "选中位置")
+            }
         }
     }
 

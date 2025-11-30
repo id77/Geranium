@@ -133,12 +133,19 @@ private struct MapControlPanel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(viewModel.selectedLocation?.label ?? "当前预览")
+                Text(displayTitle)
                     .font(.headline)
-                if let coordinate = viewModel.selectedLocation?.coordinateDescription {
-                    Text(coordinate)
+                if let location = viewModel.selectedLocation {
+                    Text(location.coordinateDescription)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    // 如果有详细地址备注，也显示出来
+                    if let note = location.note, !note.isEmpty {
+                        Text(note)
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                            .lineLimit(2)
+                    }
                 } else {
                     Text("点击地图即可放置定位点")
                         .font(.caption)
@@ -164,6 +171,21 @@ private struct MapControlPanel: View {
             RoundedRectangle(cornerRadius: 24, style: .continuous)
                 .strokeBorder(Color.primary.opacity(0.06))
         }
+    }
+
+    private var displayTitle: String {
+        guard let location = viewModel.selectedLocation else {
+            return "当前预览"
+        }
+
+        // 如果有 label 且不是"正在获取地址..."和"选中位置"这类临时文本，则显示 label
+        if let label = location.label, !label.isEmpty,
+           label != "正在获取地址...", label != "选中位置" {
+            return label
+        }
+
+        // 否则显示"当前选点"
+        return "当前选点"
     }
 }
 
