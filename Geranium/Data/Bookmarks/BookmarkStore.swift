@@ -84,6 +84,10 @@ final class BookmarkStore: ObservableObject {
         persist()
     }
 
+    func reload() {
+        loadBookmarksFromDefaults()
+    }
+
     @discardableResult
     func importLegacyBookmarks() throws -> Int {
         guard canImportLegacyRecords else { return 0 }

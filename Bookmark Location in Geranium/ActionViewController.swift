@@ -27,7 +27,7 @@ class ActionViewController: UIViewController {
         if let sharedItems = extensionContext?.inputItems as? [NSExtensionItem],
            let firstItem = sharedItems.first,
            let attachments = firstItem.attachments {
-            
+
             for provider in attachments {
                 if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier as String) {
                     provider.loadItem(forTypeIdentifier: UTType.url.identifier as String, options: nil, completionHandler: { (url, error) in
@@ -39,6 +39,10 @@ class ActionViewController: UIViewController {
                                 DispatchQueue.main.async {
                                     let bookmarkName = self.textField.text
                                     print(self.BookMarkSave(lat: latitudeDouble, long: longitudeDouble, name: bookmarkName ?? ""))
+
+                                    // 打开主应用的收藏界面
+                                    self.openMainApp()
+
                                     self.done()
                                 }
                             }
@@ -53,6 +57,26 @@ class ActionViewController: UIViewController {
 
     @IBAction func done() {
         self.extensionContext?.completeRequest(returningItems: self.extensionContext!.inputItems, completionHandler: nil)
+    }
+
+    private func openMainApp() {
+        // 使用 URL Scheme 打开主应用的收藏界面
+        if let url = URL(string: "geranium://bookmarks") {
+            var responder: UIResponder? = self as UIResponder
+            let selector = #selector(openURL(_:))
+
+            while responder != nil {
+                if responder!.responds(to: selector) && responder != self {
+                    responder!.perform(selector, with: url)
+                    break
+                }
+                responder = responder?.next
+            }
+        }
+    }
+
+    @objc private func openURL(_ url: URL) {
+        // 此方法由系统调用
     }
     
     let sharedUserDefaultsSuiteName = "group.live.cclerc.geraniumBookmarks"
