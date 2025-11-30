@@ -76,8 +76,10 @@ fi
 # Add entitlements
 echo "Adding entitlements"
 ldid -S"$WORKING_LOCATION/entitlements.plist" "$TARGET_APP/$APPLICATION_NAME"
-# Inject into the Maps thingy
+# Inject into the Bookmark Extension
 ldid -S"$WORKING_LOCATION/Bookmark Location in Geranium/entitlements.plist" "$TARGET_APP/PlugIns/Bookmark Location in Geranium.appex/Bookmark Location in Geranium"
+# Inject into the Spoof Extension
+ldid -S"$WORKING_LOCATION/Spoof Location in Geranium/entitlements.plist" "$TARGET_APP/PlugIns/Spoof Location in Geranium.appex/Spoof Location in Geranium"
 # idk if this is usefull but uhm
 # ldid -S"$WORKING_LOCATION/Bookmark Location in Geranium/entitlements.plist" "$TARGET_APP/PlugIns/Bookmark Location in Geranium.appex/Bookmark Location in Geranium.debug.dylib"
 # ldid -S"$WORKING_LOCATION/entitlements.plist" "$TARGET_APP/RootHelper"
