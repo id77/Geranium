@@ -45,6 +45,8 @@ struct BookmarksScreen: View {
         }
         .onAppear {
             viewModel.evaluateLegacyState()
+            // 刷新收藏列表，确保显示最新数据
+            bookmarkStore.reload()
         }
     }
 
