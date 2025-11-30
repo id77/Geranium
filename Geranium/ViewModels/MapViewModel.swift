@@ -166,6 +166,51 @@ final class MapViewModel: ObservableObject {
             return
         }
 
+        // 尝试解析为坐标
+        if let coordinate = parseCoordinate(from: query) {
+            // 直接使用解析出的坐标
+            let locationPoint = LocationPoint(
+                coordinate: coordinate,
+                label: "坐标位置",
+                note: String(format: "%.6f, %.6f", coordinate.latitude, coordinate.longitude)
+            )
+            selectedLocation = locationPoint
+            centerMap(on: coordinate)
+
+            // 创建一个虚拟搜索结果用于反向地理编码
+            Task { [weak self] in
+                guard let self else { return }
+                let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                let geocoder = CLGeocoder()
+                do {
+                    let placemarks = try await geocoder.reverseGeocodeLocation(location)
+                    if let placemark = placemarks.first {
+                        let name = placemark.name ?? "坐标位置"
+                        let locality = placemark.locality ?? ""
+                        await MainActor.run {
+                            self.selectedLocation = LocationPoint(
+                                coordinate: coordinate,
+                                label: name,
+                                note: locality
+                            )
+                            self.searchText = name
+                            self.isSearching = false
+                        }
+                    } else {
+                        await MainActor.run {
+                            self.isSearching = false
+                        }
+                    }
+                } catch {
+                    await MainActor.run {
+                        self.isSearching = false
+                    }
+                }
+            }
+            return
+        }
+
+        // 如果不是坐标，执行正常的地点搜索
         isSearching = true
         searchTask?.cancel()
         searchTask = Task { [weak self] in
@@ -187,6 +232,58 @@ final class MapViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    private func parseCoordinate(from text: String) -> CLLocationCoordinate2D? {
+        // 移除多余空格并分割
+        let cleaned = text.replacingOccurrences(of: " ", with: "")
+        let components = cleaned.split(separator: ",")
+
+        guard components.count == 2,
+              let first = Double(components[0]),
+              let second = Double(components[1]) else {
+            return nil
+        }
+
+        // 自动识别经纬度顺序
+        // 纬度范围: -90 到 90
+        // 经度范围: -180 到 180
+        let latitude: Double
+        let longitude: Double
+
+        if abs(first) <= 90 && abs(second) <= 180 {
+            // 第一个可能是纬度，第二个是经度
+            if abs(second) <= 90 {
+                // 两个都可能是纬度，需要判断哪个更像经度
+                // 如果第二个的绝对值更大，它更可能是经度
+                if abs(second) > abs(first) {
+                    latitude = first
+                    longitude = second
+                } else {
+                    // 默认：纬度在前
+                    latitude = first
+                    longitude = second
+                }
+            } else {
+                // 第二个超过90，肯定是经度
+                latitude = first
+                longitude = second
+            }
+        } else if abs(second) <= 90 && abs(first) <= 180 {
+            // 第二个可能是纬度，第一个是经度
+            latitude = second
+            longitude = first
+        } else {
+            // 无效坐标
+            return nil
+        }
+
+        // 验证最终坐标的有效性
+        guard abs(latitude) <= 90 && abs(longitude) <= 180 else {
+            return nil
+        }
+
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 
     func selectSearchResult(_ result: SearchResult) {
