@@ -241,7 +241,7 @@ private struct FloatingLocationButton: View {
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(14)
-                        .background(isSpoofing ? Color.blue : Color.red, in: Circle())
+                        .background(isSpoofing ? Color.blue : Color.accentColor, in: Circle())
                         .shadow(color: .black.opacity(0.25), radius: 10, y: 4)
                 }
                 .padding(.trailing, 20)
