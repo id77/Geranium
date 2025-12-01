@@ -21,7 +21,7 @@ struct MapCanvasView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
-        mapView.showsUserLocation = true
+        mapView.showsUserLocation = true  // 始终显示真实位置
         mapView.pointOfInterestFilter = .includingAll
         mapView.setRegion(region, animated: false)
 
@@ -38,8 +38,8 @@ struct MapCanvasView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        // 根据是否有激活的模拟位置来决定是否显示真实用户位置
         // 如果正在模拟定位，隐藏真实位置的蓝点
+        // 如果不在模拟，显示真实位置
         uiView.showsUserLocation = (activeCoordinate == nil)
         
         // 每次外部 region 变化都强制重置 isUserInteracting，确保 setRegion 总能执行
@@ -113,17 +113,43 @@ struct MapCanvasView: UIViewRepresentable {
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             guard !(annotation is MKUserLocation) else { return nil }
             
-            // 如果是模拟位置，使用蓝色圆点样式（类似系统用户位置）
+            // 如果是模拟位置，使用自定义视图模拟系统的用户位置蓝点
             if annotation.title??.contains("模拟位置") == true {
-                let identifier = "SimulatedLocationAnnotation"
-                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+                let identifier = "SimulatedUserLocation"
+                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                
                 if annotationView == nil {
-                    annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                    annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+                    annotationView?.canShowCallout = false
+                    
+                    // 创建蓝色圆点 + 白色边框（模拟系统的用户位置样式）
+                    let size: CGFloat = 20
+                    let outerCircle = UIView(frame: CGRect(x: 0, y: 0, width: size, height: size))
+                    outerCircle.backgroundColor = .white
+                    outerCircle.layer.cornerRadius = size / 2
+                    outerCircle.layer.shadowColor = UIColor.black.cgColor
+                    outerCircle.layer.shadowOpacity = 0.3
+                    outerCircle.layer.shadowOffset = CGSize(width: 0, height: 1)
+                    outerCircle.layer.shadowRadius = 2
+                    
+                    let innerSize: CGFloat = 14
+                    let innerCircle = UIView(frame: CGRect(
+                        x: (size - innerSize) / 2,
+                        y: (size - innerSize) / 2,
+                        width: innerSize,
+                        height: innerSize
+                    ))
+                    innerCircle.backgroundColor = UIColor.systemBlue
+                    innerCircle.layer.cornerRadius = innerSize / 2
+                    
+                    outerCircle.addSubview(innerCircle)
+                    annotationView?.addSubview(outerCircle)
+                    annotationView?.frame = CGRect(x: 0, y: 0, width: size, height: size)
+                    annotationView?.centerOffset = CGPoint(x: 0, y: 0)
+                } else {
+                    annotationView?.annotation = annotation
                 }
-                annotationView?.annotation = annotation
-                annotationView?.markerTintColor = UIColor.systemBlue
-                annotationView?.glyphImage = UIImage(systemName: "location.fill")
-                annotationView?.displayPriority = .required
+                
                 return annotationView
             }
             
