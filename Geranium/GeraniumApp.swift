@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import CoreLocation
+
 @main
 struct GeraniumApp: App {
     var body: some Scene {

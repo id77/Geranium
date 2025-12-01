@@ -30,21 +30,9 @@ struct BookmarksScreen: View {
                 viewModel.dismissEditor()
             })
         }
-        .confirmationDialog(
-            "检测到旧版 LocSim 收藏，是否导入？",
-            isPresented: $viewModel.showImportPrompt,
-            titleVisibility: .visible
-        ) {
-            Button("导入", action: viewModel.performLegacyImport)
-            Button("取消", role: .cancel) {}
-        }
-        .alert(isPresented: $viewModel.showImportResult) {
-            Alert(title: Text("导入结果"),
-                  message: Text(viewModel.importResultMessage ?? ""),
-                  dismissButton: .default(Text("确定")))
-        }
         .onAppear {
-            viewModel.evaluateLegacyState()
+            // 刷新收藏列表，确保显示最新数据
+            bookmarkStore.reload()
         }
     }
 

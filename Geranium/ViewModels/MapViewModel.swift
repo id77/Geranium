@@ -23,6 +23,9 @@ final class MapViewModel: ObservableObject {
     @Published var isSearching: Bool = false
     @Published var showSearchResults: Bool = false
 
+    // 地图上显示的用户位置（蓝色圆点的实际位置）
+    private var mapUserLocation: CLLocationCoordinate2D?
+
     var statusInfo: MapStatus {
         if let active = engine.session.activePoint {
             return MapStatus(
@@ -99,14 +102,136 @@ final class MapViewModel: ObservableObject {
     }
 
     func handleMapTap(_ coordinate: CLLocationCoordinate2D) {
-        selectedLocation = LocationPoint(coordinate: coordinate, label: nil)
+        // 先设置一个临时的位置点
+        selectedLocation = LocationPoint(coordinate: coordinate, label: "正在获取地址...")
+        // 点击地图时不自动居中，因为用户已经在看着点击的位置了
+        // 只在点击收藏、开始模拟、当前位置等操作时才自动居中
+
+        // 进行反向地理编码以获取地点名称和详细地址
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let geocoder = CLGeocoder()
+
+        Task { @MainActor in
+            do {
+                let placemarks = try await geocoder.reverseGeocodeLocation(location)
+                if let placemark = placemarks.first {
+                    // 获取地点名称
+                    let name = placemark.name ?? placemark.thoroughfare ?? "选中位置"
+
+                    // 构建详细地址（省市区街道）
+                    var addressComponents: [String] = []
+                    if let country = placemark.country {
+                        addressComponents.append(country)
+                    }
+                    if let administrativeArea = placemark.administrativeArea {
+                        addressComponents.append(administrativeArea)
+                    }
+                    if let locality = placemark.locality {
+                        addressComponents.append(locality)
+                    }
+                    if let subLocality = placemark.subLocality {
+                        addressComponents.append(subLocality)
+                    }
+                    if let thoroughfare = placemark.thoroughfare {
+                        addressComponents.append(thoroughfare)
+                    }
+                    if let subThoroughfare = placemark.subThoroughfare {
+                        addressComponents.append(subThoroughfare)
+                    }
+
+                    let detailedAddress = addressComponents.joined(separator: " ")
+
+                    // 更新选中的位置点，包含地点名称和详细地址
+                    selectedLocation = LocationPoint(
+                        coordinate: coordinate,
+                        label: name,
+                        note: detailedAddress.isEmpty ? nil : detailedAddress
+                    )
+                } else {
+                    // 如果没有获取到地址信息，使用默认名称
+                    selectedLocation = LocationPoint(coordinate: coordinate, label: "选中位置")
+                }
+            } catch {
+                // 地理编码失败，使用默认名称
+                selectedLocation = LocationPoint(coordinate: coordinate, label: "选中位置")
+            }
+        }
+    }
+
+    func handleMapLongPress(_ coordinate: CLLocationCoordinate2D) {
+        // 先设置一个临时的位置点
+        selectedLocation = LocationPoint(coordinate: coordinate, label: "正在获取地址...")
+
+        // 自动居中到长按的位置
         if settings.autoCenterOnSelection {
             centerMap(on: coordinate)
+        }
+
+        // 进行反向地理编码以获取地点名称和详细地址
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let geocoder = CLGeocoder()
+
+        Task { @MainActor in
+            do {
+                let placemarks = try await geocoder.reverseGeocodeLocation(location)
+                if let placemark = placemarks.first {
+                    // 获取地点名称
+                    let name = placemark.name ?? placemark.thoroughfare ?? "选中位置"
+
+                    // 构建详细地址（省市区街道）
+                    var addressComponents: [String] = []
+                    if let country = placemark.country {
+                        addressComponents.append(country)
+                    }
+                    if let administrativeArea = placemark.administrativeArea {
+                        addressComponents.append(administrativeArea)
+                    }
+                    if let locality = placemark.locality {
+                        addressComponents.append(locality)
+                    }
+                    if let subLocality = placemark.subLocality {
+                        addressComponents.append(subLocality)
+                    }
+                    if let thoroughfare = placemark.thoroughfare {
+                        addressComponents.append(thoroughfare)
+                    }
+                    if let subThoroughfare = placemark.subThoroughfare {
+                        addressComponents.append(subThoroughfare)
+                    }
+
+                    let detailedAddress = addressComponents.joined(separator: " ")
+
+                    // 更新选中的位置点，包含地点名称和详细地址
+                    let locationPoint = LocationPoint(
+                        coordinate: coordinate,
+                        label: name,
+                        note: detailedAddress.isEmpty ? nil : detailedAddress
+                    )
+                    selectedLocation = locationPoint
+
+                    // 直接开始模拟
+                    startSpoofing(point: locationPoint, bookmark: nil)
+                } else {
+                    // 如果没有获取到地址信息，使用默认名称并开始模拟
+                    let locationPoint = LocationPoint(coordinate: coordinate, label: "选中位置")
+                    selectedLocation = locationPoint
+                    startSpoofing(point: locationPoint, bookmark: nil)
+                }
+            } catch {
+                // 地理编码失败，使用默认名称并开始模拟
+                let locationPoint = LocationPoint(coordinate: coordinate, label: "选中位置")
+                selectedLocation = locationPoint
+                startSpoofing(point: locationPoint, bookmark: nil)
+            }
         }
     }
 
     func updateMapCenter(_ coordinate: CLLocationCoordinate2D) {
         lastMapCenter = coordinate
+    }
+
+    func updateMapUserLocation(_ coordinate: CLLocationCoordinate2D) {
+        mapUserLocation = coordinate
     }
 
     func openBookmarkCreator() {
@@ -139,6 +264,10 @@ final class MapViewModel: ObservableObject {
             showErrorAlert = true
             return
         }
+        // 开始模拟时自动居中到选中的位置
+        if settings.autoCenterOnSelection {
+            centerMap(on: selectedLocation.coordinate)
+        }
         startSpoofing(point: selectedLocation, bookmark: nil)
     }
 
@@ -166,6 +295,51 @@ final class MapViewModel: ObservableObject {
             return
         }
 
+        // 尝试解析为坐标
+        if let coordinate = parseCoordinate(from: query) {
+            // 直接使用解析出的坐标
+            let locationPoint = LocationPoint(
+                coordinate: coordinate,
+                label: "坐标位置",
+                note: String(format: "%.6f, %.6f", coordinate.latitude, coordinate.longitude)
+            )
+            selectedLocation = locationPoint
+            centerMap(on: coordinate)
+
+            // 创建一个虚拟搜索结果用于反向地理编码
+            Task { [weak self] in
+                guard let self else { return }
+                let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+                let geocoder = CLGeocoder()
+                do {
+                    let placemarks = try await geocoder.reverseGeocodeLocation(location)
+                    if let placemark = placemarks.first {
+                        let name = placemark.name ?? "坐标位置"
+                        let locality = placemark.locality ?? ""
+                        await MainActor.run {
+                            self.selectedLocation = LocationPoint(
+                                coordinate: coordinate,
+                                label: name,
+                                note: locality
+                            )
+                            self.searchText = name
+                            self.isSearching = false
+                        }
+                    } else {
+                        await MainActor.run {
+                            self.isSearching = false
+                        }
+                    }
+                } catch {
+                    await MainActor.run {
+                        self.isSearching = false
+                    }
+                }
+            }
+            return
+        }
+
+        // 如果不是坐标，执行正常的地点搜索
         isSearching = true
         searchTask?.cancel()
         searchTask = Task { [weak self] in
@@ -189,6 +363,58 @@ final class MapViewModel: ObservableObject {
         }
     }
 
+    private func parseCoordinate(from text: String) -> CLLocationCoordinate2D? {
+        // 移除多余空格并分割
+        let cleaned = text.replacingOccurrences(of: " ", with: "")
+        let components = cleaned.split(separator: ",")
+
+        guard components.count == 2,
+              let first = Double(components[0]),
+              let second = Double(components[1]) else {
+            return nil
+        }
+
+        // 自动识别经纬度顺序
+        // 纬度范围: -90 到 90
+        // 经度范围: -180 到 180
+        let latitude: Double
+        let longitude: Double
+
+        if abs(first) <= 90 && abs(second) <= 180 {
+            // 第一个可能是纬度，第二个是经度
+            if abs(second) <= 90 {
+                // 两个都可能是纬度，需要判断哪个更像经度
+                // 如果第二个的绝对值更大，它更可能是经度
+                if abs(second) > abs(first) {
+                    latitude = first
+                    longitude = second
+                } else {
+                    // 默认：纬度在前
+                    latitude = first
+                    longitude = second
+                }
+            } else {
+                // 第二个超过90，肯定是经度
+                latitude = first
+                longitude = second
+            }
+        } else if abs(second) <= 90 && abs(first) <= 180 {
+            // 第二个可能是纬度，第一个是经度
+            latitude = second
+            longitude = first
+        } else {
+            // 无效坐标
+            return nil
+        }
+
+        // 验证最终坐标的有效性
+        guard abs(latitude) <= 90 && abs(longitude) <= 180 else {
+            return nil
+        }
+
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
     func selectSearchResult(_ result: SearchResult) {
         let coordinate = result.mapItem.placemark.coordinate
         selectedLocation = LocationPoint(coordinate: coordinate, label: result.title, note: result.subtitle)
@@ -207,11 +433,37 @@ final class MapViewModel: ObservableObject {
     }
 
     func centerOnCurrentLocation() {
-        guard let location = locationAuthorizer.currentLocation else {
-            errorMessage = "无法获取当前位置，请确保已授予位置权限"
+        // 优先使用地图的 userLocation（蓝色圆点的实际坐标）
+        // 这样在模拟定位时也能正确居中到蓝色圆点位置
+        if let location = mapUserLocation {
+            centerMap(on: location)
+            return
+        }
+
+        // 如果没有地图的 userLocation，则使用 CLLocationManager 的位置
+        // 检查位置权限状态
+        let authStatus = locationAuthorizer.authorisationStatus
+
+        if authStatus == .denied || authStatus == .restricted {
+            errorMessage = "位置权限被拒绝。\n请前往：设置 → 隐私与安全 → 定位服务 → Geranium\n选择\"使用 App 期间\"以启用定位功能。"
             showErrorAlert = true
             return
         }
+
+        if authStatus == .notDetermined {
+            errorMessage = "TrollStore 应用需要手动授予位置权限。\n请前往：设置 → 隐私与安全 → 定位服务 → Geranium\n选择\"使用 App 期间\"。"
+            showErrorAlert = true
+            // 尝试请求权限（可能不会弹窗，但会更新状态）
+            locationAuthorizer.requestAuthorisation(always: false)
+            return
+        }
+
+        guard let location = locationAuthorizer.currentLocation else {
+            errorMessage = "正在获取位置中...\n如果长时间无法定位，请检查：\n1. 设置 → 定位服务已开启\n2. Geranium 的定位权限已授予"
+            showErrorAlert = true
+            return
+        }
+
         centerMap(on: location.coordinate)
     }
 
@@ -225,6 +477,7 @@ final class MapViewModel: ObservableObject {
     }
 
     private func centerMap(on coordinate: CLLocationCoordinate2D) {
+        // 只改变中心点，保持当前的缩放级别（span）
         withAnimation(settings.dampedAnimations ? .spring(response: 0.45, dampingFraction: 0.75) : .default) {
             mapRegion = MKCoordinateRegion(center: coordinate, span: mapRegion.span)
         }

@@ -14,17 +14,19 @@ struct LocationPoint: Equatable {
     var altitude: Double
     var label: String?
     var note: String?
+    var needsCoordinateTransform: Bool
 
-    init(latitude: Double, longitude: Double, altitude: Double = 0, label: String? = nil, note: String? = nil) {
+    init(latitude: Double, longitude: Double, altitude: Double = 0, label: String? = nil, note: String? = nil, needsCoordinateTransform: Bool = true) {
         self.latitude = latitude
         self.longitude = longitude
         self.altitude = altitude
         self.label = label
         self.note = note
+        self.needsCoordinateTransform = needsCoordinateTransform
     }
 
-    init(coordinate: CLLocationCoordinate2D, altitude: Double = 0, label: String? = nil, note: String? = nil) {
-        self.init(latitude: coordinate.latitude, longitude: coordinate.longitude, altitude: altitude, label: label, note: note)
+    init(coordinate: CLLocationCoordinate2D, altitude: Double = 0, label: String? = nil, note: String? = nil, needsCoordinateTransform: Bool = true) {
+        self.init(latitude: coordinate.latitude, longitude: coordinate.longitude, altitude: altitude, label: label, note: note, needsCoordinateTransform: needsCoordinateTransform)
     }
 
     var coordinate: CLLocationCoordinate2D {

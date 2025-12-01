@@ -12,11 +12,13 @@ struct MainTabView: View {
     @ObservedObject var mapViewModel: MapViewModel
     @ObservedObject var bookmarksViewModel: BookmarksViewModel
     @ObservedObject var settingsViewModel: SettingsViewModel
+    @Binding var selectedTab: Int
 
-    init(mapViewModel: MapViewModel, bookmarksViewModel: BookmarksViewModel, settingsViewModel: SettingsViewModel) {
+    init(mapViewModel: MapViewModel, bookmarksViewModel: BookmarksViewModel, settingsViewModel: SettingsViewModel, selectedTab: Binding<Int>) {
         self.mapViewModel = mapViewModel
         self.bookmarksViewModel = bookmarksViewModel
         self.settingsViewModel = settingsViewModel
+        self._selectedTab = selectedTab
 
         let appearance = UITabBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -41,21 +43,24 @@ struct MainTabView: View {
 
     @ViewBuilder
     private var tabView: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             MapScreen(viewModel: mapViewModel)
                 .tabItem {
                     Label("地图", systemImage: "map")
                 }
+                .tag(0)
 
             BookmarksScreen(viewModel: bookmarksViewModel)
                 .tabItem {
                     Label("收藏", systemImage: "bookmark")
                 }
+                .tag(1)
 
             SettingsScreen(viewModel: settingsViewModel)
                 .tabItem {
                     Label("设置", systemImage: "gearshape")
                 }
+                .tag(2)
         }
     }
 }

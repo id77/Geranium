@@ -34,7 +34,7 @@ struct SettingsScreen: View {
                 VStack(alignment: .leading) {
                     Text("默认地图缩放（米）")
                         .font(.subheadline)
-                    Slider(value: binding(\.defaultZoomLevel), in: 200...2000, step: 50)
+                    Slider(value: binding(\.defaultZoomLevel), in: 0...2000, step: 5)
                     Text(String(format: "%.0f 米", viewModel.settings.defaultZoomLevel))
                         .foregroundStyle(.secondary)
                         .font(.caption)
@@ -50,7 +50,7 @@ struct SettingsScreen: View {
                         .foregroundStyle(.secondary)
                 }
 
-                Link(destination: URL(string: "https://github.com/Wtrwx/Geranium")!) {
+                Link(destination: URL(string: "https://github.com/id77/Geranium")!) {
                     Label("GitHub 项目主页", systemImage: "link")
                 }
             }

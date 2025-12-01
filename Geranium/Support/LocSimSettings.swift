@@ -30,7 +30,7 @@ final class LocSimSettings: ObservableObject {
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
         self.autoStartFromBookmarks = defaults.object(forKey: Keys.autoStartFromBookmarks) as? Bool ?? true
-        self.defaultZoomLevel = defaults.object(forKey: Keys.defaultZoomLevel) as? Double ?? 1400
+        self.defaultZoomLevel = defaults.object(forKey: Keys.defaultZoomLevel) as? Double ?? 0
     }
 
     var mapSpanDegrees: Double {

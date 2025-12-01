@@ -3,52 +3,48 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0719A2FDD3F943368311230F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3647223994004DCC998E05D8 /* SettingsViewModel.swift */; };
+		11A101A58C814A5FB0B57E9C /* BookmarkEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */; };
+		16C2D3A42EDD07BD00D69D73 /* Locate to the current location and collect.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 16C2D39A2EDD07BC00D69D73 /* Locate to the current location and collect.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2AE2A2061A2C4050BC62164E /* BookmarkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */; };
+		347BEE85373749BDA28EFB0B /* BookmarksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */; };
+		363B452057D84096BF4DA3FE /* MapCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */; };
+		3CF769C315BC461BBC34D2FA /* BookmarksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */; };
+		5494540E0365446BAFCA858B /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF190F714203472D9665EAC0 /* StatusBadge.swift */; };
+		67527A7DB28B4FF6BA5B85B4 /* BookmarkEditorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */; };
+		6C64D385951749AC917E2FF6 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A4BD6530C437EA975C055 /* MapViewModel.swift */; };
+		7002B0DAE1CB4BB7852C6BF6 /* LocationSpoofingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */; };
+		7460C665F5FE440699E2380C /* LocSimAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */; };
 		790301C12B377EA70044E30A /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 790301C02B377EA70044E30A /* Localizable.xcstrings */; };
 		7930B46D2B4B2AD800A5B0CB /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7930B4592B4B267F00A5B0CB /* MobileCoreServices.framework */; };
 		7930B46E2B4B2ADD00A5B0CB /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 790301BC2B3774F90044E30A /* CoreServices.framework */; };
-		796072E02B4F4FAE00737B5D /* UniformTypeIdentifiers.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 796072DF2B4F4FAE00737B5D /* UniformTypeIdentifiers.framework */; };
-		796072E32B4F4FAE00737B5D /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 796072E22B4F4FAE00737B5D /* Media.xcassets */; };
-		796072E52B4F4FAE00737B5D /* ActionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 796072E42B4F4FAE00737B5D /* ActionViewController.swift */; };
-		796072E82B4F4FAE00737B5D /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 796072E62B4F4FAE00737B5D /* MainInterface.storyboard */; };
-		796072EC2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 796072DE2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		799488A62B347E2C00AFFDCF /* LocSimManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799488A52B347E2C00AFFDCF /* LocSimManager.swift */; };
+		7D89B5874C494E589F3B01EF /* LocSimSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1C9E472EC4E369A368682 /* LocSimSettings.swift */; };
+		7F5B52E184854CC7B0482253 /* LocationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */; };
+		8E4ADBAEBAD243FE9045D0D1 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23720092DB2C4D7BA6148776 /* SettingsScreen.swift */; };
+		991F25A3C174462C9278E41B /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD846665F7420EA427A2D2 /* Bookmark.swift */; };
+		994EDB43E82B4DEBAE2D99A4 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE47062E3D4CE792CD8051 /* MainTabView.swift */; };
+		E90E4FCDF6B641E28BB3A0D2 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD26C6925443D29C895557 /* MapScreen.swift */; };
+		F59FE641C91349D99152FA8F /* BookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C8419330A04C1084B5A7FB /* BookmarkStore.swift */; };
 		F82C58042E37786D00F76DFA /* CoordTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82C58032E37786D00F76DFA /* CoordTransform.swift */; };
 		FAA456D52B265FEA00FC7287 /* GeraniumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA456D42B265FEA00FC7287 /* GeraniumApp.swift */; };
 		FAA456D72B265FEA00FC7287 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA456D62B265FEA00FC7287 /* ContentView.swift */; };
 		FAA456D92B265FEC00FC7287 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA456D82B265FEC00FC7287 /* Assets.xcassets */; };
 		FAA456DC2B265FEC00FC7287 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FAA456DB2B265FEC00FC7287 /* Preview Assets.xcassets */; };
 		FAA457232B26654700FC7287 /* Addon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAA457222B26654700FC7287 /* Addon.swift */; };
-		7F5B52E184854CC7B0482253 /* LocationModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */; };
-		7002B0DAE1CB4BB7852C6BF6 /* LocationSpoofingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */; };
-		991F25A3C174462C9278E41B /* Bookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BBD846665F7420EA427A2D2 /* Bookmark.swift */; };
-		F59FE641C91349D99152FA8F /* BookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15C8419330A04C1084B5A7FB /* BookmarkStore.swift */; };
-		7D89B5874C494E589F3B01EF /* LocSimSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36F1C9E472EC4E369A368682 /* LocSimSettings.swift */; };
-		7460C665F5FE440699E2380C /* LocSimAppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */; };
-		6C64D385951749AC917E2FF6 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A4BD6530C437EA975C055 /* MapViewModel.swift */; };
-		347BEE85373749BDA28EFB0B /* BookmarksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */; };
-		0719A2FDD3F943368311230F /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3647223994004DCC998E05D8 /* SettingsViewModel.swift */; };
-		67527A7DB28B4FF6BA5B85B4 /* BookmarkEditorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */; };
-		994EDB43E82B4DEBAE2D99A4 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CE47062E3D4CE792CD8051 /* MainTabView.swift */; };
-		E90E4FCDF6B641E28BB3A0D2 /* MapScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30FD26C6925443D29C895557 /* MapScreen.swift */; };
-		363B452057D84096BF4DA3FE /* MapCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */; };
-		3CF769C315BC461BBC34D2FA /* BookmarksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */; };
-		2AE2A2061A2C4050BC62164E /* BookmarkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */; };
-		11A101A58C814A5FB0B57E9C /* BookmarkEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */; };
-		8E4ADBAEBAD243FE9045D0D1 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23720092DB2C4D7BA6148776 /* SettingsScreen.swift */; };
-		5494540E0365446BAFCA858B /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF190F714203472D9665EAC0 /* StatusBadge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		796072EA2B4F4FAE00737B5D /* PBXContainerItemProxy */ = {
+		16C2D3A22EDD07BD00D69D73 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FAA456C92B265FEA00FC7287 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 796072DD2B4F4FAE00737B5D;
-			remoteInfo = "Bookmark Location in Geranium";
+			remoteGlobalIDString = 16C2D3992EDD07BC00D69D73;
+			remoteInfo = "Locate to the current location and collect";
 		};
 		FAA456E22B265FED00FC7287 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -73,7 +69,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				796072EC2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex in Embed Foundation Extensions */,
+				16C2D3A42EDD07BD00D69D73 /* Locate to the current location and collect.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -81,20 +77,37 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		15C8419330A04C1084B5A7FB /* BookmarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkStore.swift; sourceTree = "<group>"; };
+		16C2D39A2EDD07BC00D69D73 /* Locate to the current location and collect.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Locate to the current location and collect.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		23720092DB2C4D7BA6148776 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimAppModel.swift; sourceTree = "<group>"; };
+		2BBD846665F7420EA427A2D2 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
+		30FD26C6925443D29C895557 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
+		3647223994004DCC998E05D8 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		36F1C9E472EC4E369A368682 /* LocSimSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimSettings.swift; sourceTree = "<group>"; };
+		48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewModel.swift; sourceTree = "<group>"; };
+		4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardView.swift; sourceTree = "<group>"; };
+		58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksScreen.swift; sourceTree = "<group>"; };
+		77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCanvasView.swift; sourceTree = "<group>"; };
 		790301BA2B37747A0044E30A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		790301BC2B3774F90044E30A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		790301C02B377EA70044E30A /* Localizable.xcstrings */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; tabWidth = 2; };
 		7930B4592B4B267F00A5B0CB /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		796072DE2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Bookmark Location in Geranium.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		796072DF2B4F4FAE00737B5D /* UniformTypeIdentifiers.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UniformTypeIdentifiers.framework; path = System/Library/Frameworks/UniformTypeIdentifiers.framework; sourceTree = SDKROOT; };
 		796072E22B4F4FAE00737B5D /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
 		796072E42B4F4FAE00737B5D /* ActionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionViewController.swift; sourceTree = "<group>"; };
-		796072E72B4F4FAE00737B5D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		796072E92B4F4FAE00737B5D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		796072F12B4F5A7A00737B5D /* Geranium.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Geranium.entitlements; sourceTree = "<group>"; };
 		796072F22B4F616B00737B5D /* Bookmark Location in Geranium.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Bookmark Location in Geranium.entitlements"; sourceTree = "<group>"; };
 		799488A52B347E2C00AFFDCF /* LocSimManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocSimManager.swift; sourceTree = "<group>"; };
 		799488A72B347E2F00AFFDCF /* LocSimPrivateHeaders.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocSimPrivateHeaders.h; sourceTree = "<group>"; };
+		87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditorMode.swift; sourceTree = "<group>"; };
+		8C4A4BD6530C437EA975C055 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
+		93CE47062E3D4CE792CD8051 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditorView.swift; sourceTree = "<group>"; };
+		C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSpoofingEngine.swift; sourceTree = "<group>"; };
+		EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModels.swift; sourceTree = "<group>"; };
+		EF190F714203472D9665EAC0 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
 		F82C58032E37786D00F76DFA /* CoordTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordTransform.swift; sourceTree = "<group>"; };
 		FAA456D12B265FEA00FC7287 /* Geranium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Geranium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA456D42B265FEA00FC7287 /* GeraniumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeraniumApp.swift; sourceTree = "<group>"; };
@@ -105,32 +118,27 @@
 		FAA456EB2B265FED00FC7287 /* GeraniumUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GeraniumUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA457042B2660AC00FC7287 /* Geranium-Bringing-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Geranium-Bringing-Header.h"; sourceTree = "<group>"; };
 		FAA457222B26654700FC7287 /* Addon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Addon.swift; sourceTree = "<group>"; };
-		EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModels.swift; sourceTree = "<group>"; };
-		C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSpoofingEngine.swift; sourceTree = "<group>"; };
-		2BBD846665F7420EA427A2D2 /* Bookmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bookmark.swift; sourceTree = "<group>"; };
-		15C8419330A04C1084B5A7FB /* BookmarkStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkStore.swift; sourceTree = "<group>"; };
-		36F1C9E472EC4E369A368682 /* LocSimSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimSettings.swift; sourceTree = "<group>"; };
-		2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocSimAppModel.swift; sourceTree = "<group>"; };
-		8C4A4BD6530C437EA975C055 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksViewModel.swift; sourceTree = "<group>"; };
-		3647223994004DCC998E05D8 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
-		87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditorMode.swift; sourceTree = "<group>"; };
-		93CE47062E3D4CE792CD8051 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		30FD26C6925443D29C895557 /* MapScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreen.swift; sourceTree = "<group>"; };
-		77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCanvasView.swift; sourceTree = "<group>"; };
-		58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarksScreen.swift; sourceTree = "<group>"; };
-		4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkCardView.swift; sourceTree = "<group>"; };
-		A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkEditorView.swift; sourceTree = "<group>"; };
-		23720092DB2C4D7BA6148776 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
-		EF190F714203472D9665EAC0 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		16C2D3A52EDD07BD00D69D73 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 16C2D3992EDD07BC00D69D73 /* Locate to the current location and collect */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		16C2D39B2EDD07BD00D69D73 /* Locate to the current location and collect */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (16C2D3A52EDD07BD00D69D73 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "Locate to the current location and collect"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
-		796072DB2B4F4FAE00737B5D /* Frameworks */ = {
+		16C2D3972EDD07BC00D69D73 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				796072E02B4F4FAE00737B5D /* UniformTypeIdentifiers.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +168,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39425223504849A5913BEEEF /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				8C4A4BD6530C437EA975C055 /* MapViewModel.swift */,
+				48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */,
+				3647223994004DCC998E05D8 /* SettingsViewModel.swift */,
+				87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		39C16911496D428C95464AF0 /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				2BBD846665F7420EA427A2D2 /* Bookmark.swift */,
+				15C8419330A04C1084B5A7FB /* BookmarkStore.swift */,
+			);
+			path = Bookmarks;
+			sourceTree = "<group>";
+		};
+		4B0BD4956901491A8C3F12A6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				30FD26C6925443D29C895557 /* MapScreen.swift */,
+				77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		6BFEB8FF256944978FB956EE /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				23720092DB2C4D7BA6148776 /* SettingsScreen.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		790301B92B37747A0044E30A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,7 +230,6 @@
 				796072F22B4F616B00737B5D /* Bookmark Location in Geranium.entitlements */,
 				796072E22B4F4FAE00737B5D /* Media.xcassets */,
 				796072E42B4F4FAE00737B5D /* ActionViewController.swift */,
-				796072E62B4F4FAE00737B5D /* MainInterface.storyboard */,
 				796072E92B4F4FAE00737B5D /* Info.plist */,
 			);
 			path = "Bookmark Location in Geranium";
@@ -195,10 +239,82 @@
 			isa = PBXGroup;
 			children = (
 				F82C58032E37786D00F76DFA /* CoordTransform.swift */,
-					799488A52B347E2C00AFFDCF /* LocSimManager.swift */,
+				799488A52B347E2C00AFFDCF /* LocSimManager.swift */,
 				799488A72B347E2F00AFFDCF /* LocSimPrivateHeaders.h */,
 			);
 			path = LocSim;
+			sourceTree = "<group>";
+		};
+		7F980CD8F9CD46E490FBAFD7 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */,
+				C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		8B3695A81CE34B0EACDA93FE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				7F980CD8F9CD46E490FBAFD7 /* Location */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9BF814590F1F40CB827AE377 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				93CE47062E3D4CE792CD8051 /* MainTabView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		BD7DD6BEE17E4091836908D8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				EF190F714203472D9665EAC0 /* StatusBadge.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D72758EF572141B7A3664B02 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				36F1C9E472EC4E369A368682 /* LocSimSettings.swift */,
+				2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		DF235EBBD1774397BFE2F05F /* Bookmarks */ = {
+			isa = PBXGroup;
+			children = (
+				58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */,
+				4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */,
+				A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */,
+			);
+			path = Bookmarks;
+			sourceTree = "<group>";
+		};
+		DF71C8A52D834423A6ADC3D2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				BD7DD6BEE17E4091836908D8 /* Components */,
+				9BF814590F1F40CB827AE377 /* Main */,
+				4B0BD4956901491A8C3F12A6 /* Map */,
+				DF235EBBD1774397BFE2F05F /* Bookmarks */,
+				6BFEB8FF256944978FB956EE /* Settings */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F94D8153F44949689FF2EEF9 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				39C16911496D428C95464AF0 /* Bookmarks */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 		FAA456C82B265FEA00FC7287 = {
@@ -206,6 +322,7 @@
 			children = (
 				FAA456D32B265FEA00FC7287 /* Geranium */,
 				796072E12B4F4FAE00737B5D /* Bookmark Location in Geranium */,
+				16C2D39B2EDD07BD00D69D73 /* Locate to the current location and collect */,
 				FAA456D22B265FEA00FC7287 /* Products */,
 				790301B92B37747A0044E30A /* Frameworks */,
 			);
@@ -217,7 +334,7 @@
 				FAA456D12B265FEA00FC7287 /* Geranium.app */,
 				FAA456E12B265FED00FC7287 /* GeraniumTests.xctest */,
 				FAA456EB2B265FED00FC7287 /* GeraniumUITests.xctest */,
-				796072DE2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex */,
+				16C2D39A2EDD07BC00D69D73 /* Locate to the current location and collect.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,133 +376,29 @@
 			path = Libs;
 			sourceTree = "<group>";
 		};
-		8B3695A81CE34B0EACDA93FE /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				7F980CD8F9CD46E490FBAFD7 /* Location */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		7F980CD8F9CD46E490FBAFD7 /* Location */ = {
-			isa = PBXGroup;
-			children = (
-				EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */,
-				C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */,
-			);
-			path = Location;
-			sourceTree = "<group>";
-		};
-		F94D8153F44949689FF2EEF9 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				39C16911496D428C95464AF0 /* Bookmarks */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		39C16911496D428C95464AF0 /* Bookmarks */ = {
-			isa = PBXGroup;
-			children = (
-				2BBD846665F7420EA427A2D2 /* Bookmark.swift */,
-				15C8419330A04C1084B5A7FB /* BookmarkStore.swift */,
-			);
-			path = Bookmarks;
-			sourceTree = "<group>";
-		};
-		D72758EF572141B7A3664B02 /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				36F1C9E472EC4E369A368682 /* LocSimSettings.swift */,
-				2435A5EFC27E4071BFD5B8C9 /* LocSimAppModel.swift */,
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
-		39425223504849A5913BEEEF /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-				8C4A4BD6530C437EA975C055 /* MapViewModel.swift */,
-				48C3FBCB17454DF6A2144245 /* BookmarksViewModel.swift */,
-				3647223994004DCC998E05D8 /* SettingsViewModel.swift */,
-				87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		DF71C8A52D834423A6ADC3D2 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				BD7DD6BEE17E4091836908D8 /* Components */,
-				9BF814590F1F40CB827AE377 /* Main */,
-				4B0BD4956901491A8C3F12A6 /* Map */,
-				DF235EBBD1774397BFE2F05F /* Bookmarks */,
-				6BFEB8FF256944978FB956EE /* Settings */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		BD7DD6BEE17E4091836908D8 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				EF190F714203472D9665EAC0 /* StatusBadge.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		9BF814590F1F40CB827AE377 /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				93CE47062E3D4CE792CD8051 /* MainTabView.swift */,
-			);
-			path = Main;
-			sourceTree = "<group>";
-		};
-		4B0BD4956901491A8C3F12A6 /* Map */ = {
-			isa = PBXGroup;
-			children = (
-				30FD26C6925443D29C895557 /* MapScreen.swift */,
-				77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */,
-			);
-			path = Map;
-			sourceTree = "<group>";
-		};
-		DF235EBBD1774397BFE2F05F /* Bookmarks */ = {
-			isa = PBXGroup;
-			children = (
-				58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */,
-				4FCE24A579D34E49AC30FE6D /* BookmarkCardView.swift */,
-				A6EE641EE33D4E7280C94B65 /* BookmarkEditorView.swift */,
-			);
-			path = Bookmarks;
-			sourceTree = "<group>";
-		};
-		6BFEB8FF256944978FB956EE /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				23720092DB2C4D7BA6148776 /* SettingsScreen.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		796072DD2B4F4FAE00737B5D /* Bookmark Location in Geranium */ = {
+		16C2D3992EDD07BC00D69D73 /* Locate to the current location and collect */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 796072F02B4F4FAE00737B5D /* Build configuration list for PBXNativeTarget "Bookmark Location in Geranium" */;
+			buildConfigurationList = 16C2D3A62EDD07BD00D69D73 /* Build configuration list for PBXNativeTarget "Locate to the current location and collect" */;
 			buildPhases = (
-				796072DA2B4F4FAE00737B5D /* Sources */,
-				796072DB2B4F4FAE00737B5D /* Frameworks */,
-				796072DC2B4F4FAE00737B5D /* Resources */,
+				16C2D3962EDD07BC00D69D73 /* Sources */,
+				16C2D3972EDD07BC00D69D73 /* Frameworks */,
+				16C2D3982EDD07BC00D69D73 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "Bookmark Location in Geranium";
-			productName = "Bookmark Location in Geranium";
-			productReference = 796072DE2B4F4FAE00737B5D /* Bookmark Location in Geranium.appex */;
+			fileSystemSynchronizedGroups = (
+				16C2D39B2EDD07BD00D69D73 /* Locate to the current location and collect */,
+			);
+			name = "Locate to the current location and collect";
+			packageProductDependencies = (
+			);
+			productName = "Locate to the current location and collect";
+			productReference = 16C2D39A2EDD07BC00D69D73 /* Locate to the current location and collect.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		FAA456D02B265FEA00FC7287 /* Geranium */ = {
@@ -400,7 +413,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				796072EB2B4F4FAE00737B5D /* PBXTargetDependency */,
+				16C2D3A32EDD07BD00D69D73 /* PBXTargetDependency */,
 			);
 			name = Geranium;
 			packageProductDependencies = (
@@ -452,11 +465,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1510;
+				LastSwiftUpdateCheck = 2610;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
-					796072DD2B4F4FAE00737B5D = {
-						CreatedOnToolsVersion = 15.1;
+					16C2D3992EDD07BC00D69D73 = {
+						CreatedOnToolsVersion = 26.1.1;
 					};
 					FAA456D02B265FEA00FC7287 = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -507,18 +520,16 @@
 				FAA456D02B265FEA00FC7287 /* Geranium */,
 				FAA456E02B265FED00FC7287 /* GeraniumTests */,
 				FAA456EA2B265FED00FC7287 /* GeraniumUITests */,
-				796072DD2B4F4FAE00737B5D /* Bookmark Location in Geranium */,
+				16C2D3992EDD07BC00D69D73 /* Locate to the current location and collect */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		796072DC2B4F4FAE00737B5D /* Resources */ = {
+		16C2D3982EDD07BC00D69D73 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				796072E32B4F4FAE00737B5D /* Media.xcassets in Resources */,
-				796072E82B4F4FAE00737B5D /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,11 +560,10 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		796072DA2B4F4FAE00737B5D /* Sources */ = {
+		16C2D3962EDD07BC00D69D73 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				796072E52B4F4FAE00737B5D /* ActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,10 +614,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		796072EB2B4F4FAE00737B5D /* PBXTargetDependency */ = {
+		16C2D3A32EDD07BD00D69D73 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 796072DD2B4F4FAE00737B5D /* Bookmark Location in Geranium */;
-			targetProxy = 796072EA2B4F4FAE00737B5D /* PBXContainerItemProxy */;
+			target = 16C2D3992EDD07BC00D69D73 /* Locate to the current location and collect */;
+			targetProxy = 16C2D3A22EDD07BD00D69D73 /* PBXContainerItemProxy */;
 		};
 		FAA456E32B265FED00FC7287 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -621,69 +631,70 @@
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		796072E62B4F4FAE00737B5D /* MainInterface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				796072E72B4F4FAE00737B5D /* Base */,
-			);
-			name = MainInterface.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		796072EE2B4F4FAE00737B5D /* Debug */ = {
+		16C2D3A72EDD07BD00D69D73 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Bookmark Location in Geranium/Bookmark Location in Geranium.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Locate to the current location and collect/Locate to the current location and collect.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7G89J82G2A;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Bookmark Location in Geranium/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Bookmark Location in Geranium";
+				INFOPLIST_FILE = "Locate to the current location and collect/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Locate to the current location and collect";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "live.cclerc.geranium.Bookmark-Location-in-Geranium";
+				PRODUCT_BUNDLE_IDENTIFIER = "live.cclerc.geranium.Locate-to-the-current-location-and-collect";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		796072EF2B4F4FAE00737B5D /* Release */ = {
+		16C2D3A82EDD07BD00D69D73 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "Bookmark Location in Geranium/Bookmark Location in Geranium.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "Locate to the current location and collect/Locate to the current location and collect.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7G89J82G2A;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Bookmark Location in Geranium/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Bookmark Location in Geranium";
+				INFOPLIST_FILE = "Locate to the current location and collect/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Locate to the current location and collect";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "live.cclerc.geranium.Bookmark-Location-in-Geranium";
+				PRODUCT_BUNDLE_IDENTIFIER = "live.cclerc.geranium.Locate-to-the-current-location-and-collect";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -967,11 +978,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		796072F02B4F4FAE00737B5D /* Build configuration list for PBXNativeTarget "Bookmark Location in Geranium" */ = {
+		16C2D3A62EDD07BD00D69D73 /* Build configuration list for PBXNativeTarget "Locate to the current location and collect" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				796072EE2B4F4FAE00737B5D /* Debug */,
-				796072EF2B4F4FAE00737B5D /* Release */,
+				16C2D3A72EDD07BD00D69D73 /* Debug */,
+				16C2D3A82EDD07BD00D69D73 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1013,10 +1024,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* End XCRemoteSwiftPackageReference section */
-
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FAA456C92B265FEA00FC7287 /* Project object */;
 }

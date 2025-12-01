@@ -25,7 +25,12 @@ struct MapScreen: View {
                               dismissKeyboard()
                               viewModel.handleMapTap(coordinate)
                           },
-                          onRegionChange: viewModel.updateMapCenter)
+                          onLongPress: { coordinate in
+                              dismissKeyboard()
+                              viewModel.handleMapLongPress(coordinate)
+                          },
+                          onRegionChange: viewModel.updateMapCenter,
+                          onUserLocationUpdate: viewModel.updateMapUserLocation)
             .ignoresSafeArea(edges: [.top])
 
             VStack(spacing: 12) {
@@ -56,9 +61,16 @@ struct MapScreen: View {
             FloatingAddButton(action: viewModel.openBookmarkCreator)
         }
         .alert(isPresented: $viewModel.showErrorAlert) {
-            Alert(title: Text(""),
-                  message: Text(viewModel.errorMessage ?? "发生未知错误"),
-                  dismissButton: .default(Text("确定")))
+            Alert(
+                title: Text(""),
+                message: Text(viewModel.errorMessage ?? "发生未知错误"),
+                primaryButton: .default(Text("去设置"), action: {
+                    if let url = URL(string: UIApplication.openSettingsURLString) {
+                        UIApplication.shared.open(url)
+                    }
+                }),
+                secondaryButton: .cancel(Text("取消"))
+            )
         }
         .sheet(item: $viewModel.editorMode, onDismiss: {
             viewModel.completeEditorFlow()
@@ -133,12 +145,19 @@ private struct MapControlPanel: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text(viewModel.selectedLocation?.label ?? "当前预览")
+                Text(displayTitle)
                     .font(.headline)
-                if let coordinate = viewModel.selectedLocation?.coordinateDescription {
-                    Text(coordinate)
+                if let location = viewModel.selectedLocation {
+                    Text(location.coordinateDescription)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                    // 如果有详细地址备注，也显示出来
+                    if let note = location.note, !note.isEmpty {
+                        Text(note)
+                            .font(.caption2)
+                            .foregroundStyle(.tertiary)
+                            .lineLimit(2)
+                    }
                 } else {
                     Text("点击地图即可放置定位点")
                         .font(.caption)
@@ -165,6 +184,21 @@ private struct MapControlPanel: View {
                 .strokeBorder(Color.primary.opacity(0.06))
         }
     }
+
+    private var displayTitle: String {
+        guard let location = viewModel.selectedLocation else {
+            return "当前预览"
+        }
+
+        // 如果有 label 且不是"正在获取地址..."和"选中位置"这类临时文本，则显示 label
+        if let label = location.label, !label.isEmpty,
+           label != "正在获取地址...", label != "选中位置" {
+            return label
+        }
+
+        // 否则显示"当前选点"
+        return "当前选点"
+    }
 }
 
 private struct FloatingAddButton: View {
@@ -177,14 +211,14 @@ private struct FloatingAddButton: View {
                 Spacer()
                 Button(action: action) {
                     Image(systemName: "plus")
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundColor(.white)
-                        .padding(18)
+                        .padding(14)
                         .background(Color.accentColor, in: Circle())
-                        .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
+                        .shadow(color: .black.opacity(0.25), radius: 10, y: 4)
                 }
-                .padding(.trailing, 24)
-                .padding(.bottom, 120)
+                .padding(.trailing, 20)
+                .padding(.bottom, 125)
             }
         }
     }
@@ -200,14 +234,14 @@ private struct FloatingLocationButton: View {
                 Spacer()
                 Button(action: action) {
                     Image(systemName: "location.fill")
-                        .font(.title2)
+                        .font(.title3)
                         .foregroundColor(.white)
-                        .padding(18)
+                        .padding(14)
                         .background(Color.accentColor, in: Circle())
-                        .shadow(color: .black.opacity(0.25), radius: 12, y: 6)
+                        .shadow(color: .black.opacity(0.25), radius: 10, y: 4)
                 }
-                .padding(.trailing, 24)
-                .padding(.bottom, 200)
+                .padding(.trailing, 20)
+                .padding(.bottom, 185)
             }
         }
     }
