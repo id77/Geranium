@@ -57,7 +57,10 @@ struct MapScreen: View {
                     .padding()
             }
 
-            FloatingLocationButton(action: viewModel.centerOnCurrentLocation)
+            FloatingLocationButton(
+                action: viewModel.centerOnCurrentLocation,
+                isSpoofing: viewModel.activeLocation != nil
+            )
             FloatingAddButton(action: viewModel.openBookmarkCreator)
         }
         .alert(isPresented: $viewModel.showErrorAlert) {
@@ -226,6 +229,7 @@ private struct FloatingAddButton: View {
 
 private struct FloatingLocationButton: View {
     var action: () -> Void
+    var isSpoofing: Bool
 
     var body: some View {
         VStack {
@@ -237,7 +241,7 @@ private struct FloatingLocationButton: View {
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(14)
-                        .background(Color.accentColor, in: Circle())
+                        .background(isSpoofing ? Color.blue : Color.red, in: Circle())
                         .shadow(color: .black.opacity(0.25), radius: 10, y: 4)
                 }
                 .padding(.trailing, 20)

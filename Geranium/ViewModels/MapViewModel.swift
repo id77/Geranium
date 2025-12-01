@@ -433,8 +433,13 @@ final class MapViewModel: ObservableObject {
     }
 
     func centerOnCurrentLocation() {
-        // 优先使用地图的 userLocation（蓝色圆点的实际坐标）
-        // 这样在模拟定位时也能正确居中到蓝色圆点位置
+        // 如果正在模拟定位，居中到模拟位置
+        if let activeLocation = engine.session.activePoint {
+            centerMap(on: activeLocation.coordinate)
+            return
+        }
+        
+        // 未模拟时，优先使用地图的 userLocation（真实位置的蓝色圆点坐标）
         if let location = mapUserLocation {
             centerMap(on: location)
             return
