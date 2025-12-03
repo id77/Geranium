@@ -26,6 +26,9 @@ final class MapViewModel: ObservableObject {
     // 地图上显示的用户位置(蓝色圆点的实际位置)
     @Published private var mapUserLocation: CLLocationCoordinate2D?
     
+    // 最近搜索记录，最多保存 6 个
+    @Published var recentSearches: [String] = []
+    
     // 搜索防抖
     private let searchSubject = PassthroughSubject<String, Never>()
 
@@ -75,6 +78,11 @@ final class MapViewModel: ObservableObject {
         self.mapRegion = MKCoordinateRegion(center: defaultCenter,
                                             span: MKCoordinateSpan(latitudeDelta: settings.mapSpanDegrees,
                                                                    longitudeDelta: settings.mapSpanDegrees))
+        
+        // 加载最近搜索记录
+        if let saved = UserDefaults.standard.stringArray(forKey: "recentSearches") {
+            self.recentSearches = Array(saved.prefix(6))
+        }
 
         engine.$session
             .receive(on: RunLoop.main)
@@ -441,6 +449,35 @@ final class MapViewModel: ObservableObject {
         searchResults = []
         // 清空搜索文本，避免显示选中的结果名称导致再次搜索
         searchText = ""
+        // 记录到最近搜索
+        addToRecentSearches(result.title)
+    }
+    
+    func selectAndStartSpoofing(_ result: SearchResult) {
+        let coordinate = result.mapItem.placemark.coordinate
+        let locationPoint = LocationPoint(coordinate: coordinate, label: result.title, note: result.subtitle)
+        selectedLocation = locationPoint
+        centerMap(on: coordinate)
+        showSearchResults = false
+        searchResults = []
+        searchText = ""
+        // 记录到最近搜索
+        addToRecentSearches(result.title)
+        // 直接开始模拟
+        startSpoofing(point: locationPoint, bookmark: nil)
+    }
+    
+    private func addToRecentSearches(_ query: String) {
+        // 移除重复项
+        recentSearches.removeAll { $0 == query }
+        // 添加到最前面
+        recentSearches.insert(query, at: 0)
+        // 最多保存 6 个
+        if recentSearches.count > 6 {
+            recentSearches = Array(recentSearches.prefix(6))
+        }
+        // 保存到 UserDefaults
+        UserDefaults.standard.set(recentSearches, forKey: "recentSearches")
     }
 
     func onSearchTextChanged(_ newValue: String) {

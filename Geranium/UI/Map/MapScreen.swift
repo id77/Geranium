@@ -62,11 +62,34 @@ struct MapScreen: View {
                     ProgressView("正在搜索…")
                         .padding(.horizontal)
                 } else if viewModel.showSearchResults && !viewModel.searchResults.isEmpty {
-                    SearchResultList(results: viewModel.searchResults, onSelect: { result in
+                    SearchResultList(results: viewModel.searchResults, 
+                                   onSelect: { result in
                         dismissKeyboard()
                         viewModel.selectSearchResult(result)
+                    }, onStartSpoofing: { result in
+                        dismissKeyboard()
+                        viewModel.selectAndStartSpoofing(result)
                     })
                         .padding(.horizontal)
+                } else if searchFocused && viewModel.searchText.isEmpty {
+                    // 搜索框聚焦但没有输入时，显示最近使用和常用城市
+                    VStack(spacing: 12) {
+                        if !viewModel.recentSearches.isEmpty {
+                            RecentSearchesList(
+                                searches: viewModel.recentSearches,
+                                onSelect: { query in
+                                    viewModel.searchText = query
+                                    viewModel.performSearch()
+                                }
+                            )
+                        }
+                        
+                        PopularCitiesList(onSelect: { cityName in
+                            viewModel.searchText = cityName
+                            viewModel.performSearch()
+                        })
+                    }
+                    .padding(.horizontal)
                 }
 
                 Spacer()
@@ -281,31 +304,119 @@ private struct FloatingLocationButton: View {
     }
 }
 
+private struct RecentSearchesList: View {
+    var searches: [String]
+    var onSelect: (String) -> Void
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("最近使用")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .padding(.horizontal, 8)
+            
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 8),
+                GridItem(.flexible(), spacing: 8),
+                GridItem(.flexible(), spacing: 8)
+            ], spacing: 8) {
+                ForEach(searches, id: \.self) { search in
+                    Button(action: { onSelect(search) }) {
+                        Text(search)
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 6)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemBackground).opacity(0.9), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            .lineLimit(1)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+}
+
+private struct PopularCitiesList: View {
+    var onSelect: (String) -> Void
+    
+    let cities = [
+        "北京", "上海", "广州", "深圳",
+        "成都", "杭州", "重庆", "西安",
+        "苏州", "武汉", "南京", "天津",
+        "长沙", "郑州", "东莞", "青岛"
+    ]
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("常用城市")
+                .font(.headline)
+                .foregroundColor(.secondary)
+                .padding(.horizontal, 8)
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 8) {
+                ForEach(cities, id: \.self) { city in
+                    Button(action: { onSelect(city) }) {
+                        Text(city)
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 8)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemBackground).opacity(0.9), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+        .padding()
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+    }
+}
+
 private struct SearchResultList: View {
     var results: [SearchResult]
     var onSelect: (SearchResult) -> Void
+    var onStartSpoofing: (SearchResult) -> Void
 
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 VStack(spacing: 8) {
                     ForEach(results) { result in
-                        Button(action: { onSelect(result) }) {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(result.title)
-                                    .font(.headline)
-                                    .foregroundColor(.primary)
-                                if !result.subtitle.isEmpty {
-                                    Text(result.subtitle)
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack(spacing: 12) {
+                            // 左侧：点击查看详情
+                            Button(action: { onSelect(result) }) {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(result.title)
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    if !result.subtitle.isEmpty {
+                                        Text(result.subtitle)
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                    }
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
-                            .padding()
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(Color(.systemBackground).opacity(0.9), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                            .buttonStyle(.plain)
+                            
+                            // 右侧：定位按钮
+                            Button(action: { onStartSpoofing(result) }) {
+                                Image(systemName: "location.fill")
+                                    .font(.system(size: 16))
+                                    .foregroundColor(.white)
+                                    .frame(width: 36, height: 36)
+                                    .background(Color.accentColor, in: Circle())
+                            }
+                            .buttonStyle(.plain)
                         }
+                        .padding()
+                        .background(Color(.systemBackground).opacity(0.9), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
                 }
                 .padding(.vertical, 8)
