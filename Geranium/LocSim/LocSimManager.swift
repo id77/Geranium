@@ -51,13 +51,20 @@ struct EquatableCoordinate: Equatable {
 
 class LocationModel: NSObject, ObservableObject {
     private let locationManager = CLLocationManager()
-    @Published var authorisationStatus: CLAuthorizationStatus = .notDetermined
+    @Published var authorisationStatus: CLAuthorizationStatus
     @Published var currentLocation: CLLocation?
 
     override init() {
+        // 在初始化时就获取当前的权限状态
+        self.authorisationStatus = CLLocationManager().authorizationStatus
         super.init()
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        
+        // 如果已经有权限，立即开始更新位置
+        if authorisationStatus == .authorizedWhenInUse || authorisationStatus == .authorizedAlways {
+            locationManager.startUpdatingLocation()
+        }
     }
 
     public func requestAuthorisation(always: Bool = false) {

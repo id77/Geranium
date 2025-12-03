@@ -42,9 +42,18 @@ struct MapCanvasView: UIViewRepresentable {
         // 如果不在模拟，显示真实位置
         uiView.showsUserLocation = (activeCoordinate == nil)
         
-        // 每次外部 region 变化都强制重置 isUserInteracting，确保 setRegion 总能执行
-        context.coordinator.isUserInteracting = false
-        uiView.setRegion(region, animated: true)
+        // 只在 region 实际变化时才更新地图
+        let regionChanged = context.coordinator.lastRegion == nil ||
+            abs(context.coordinator.lastRegion!.center.latitude - region.center.latitude) > 0.0001 ||
+            abs(context.coordinator.lastRegion!.center.longitude - region.center.longitude) > 0.0001 ||
+            abs(context.coordinator.lastRegion!.span.latitudeDelta - region.span.latitudeDelta) > 0.0001 ||
+            abs(context.coordinator.lastRegion!.span.longitudeDelta - region.span.longitudeDelta) > 0.0001
+        
+        if regionChanged && !context.coordinator.isUserInteracting {
+            context.coordinator.lastRegion = region
+            uiView.setRegion(region, animated: true)
+        }
+        
         context.coordinator.syncAnnotations(selected: selectedCoordinate, active: activeCoordinate)
     }
 
@@ -56,6 +65,7 @@ struct MapCanvasView: UIViewRepresentable {
         var parent: MapCanvasView
         weak var mapView: MKMapView?
         var isUserInteracting = false
+        var lastRegion: MKCoordinateRegion?
 
         init(parent: MapCanvasView) {
             self.parent = parent
@@ -106,6 +116,8 @@ struct MapCanvasView: UIViewRepresentable {
 
         func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
             isUserInteracting = false
+            // 更新 lastRegion 以匹配当前地图实际的 region，避免循环触发
+            lastRegion = mapView.region
             parent.region = mapView.region
             parent.onRegionChange(mapView.centerCoordinate)
         }

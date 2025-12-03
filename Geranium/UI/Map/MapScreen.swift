@@ -33,6 +33,27 @@ struct MapScreen: View {
                           onUserLocationUpdate: viewModel.updateMapUserLocation)
             .ignoresSafeArea(edges: [.top])
 
+            VStack {
+                Spacer()
+                MapControlPanel(viewModel: viewModel)
+                    .padding()
+            }
+            .ignoresSafeArea(.keyboard)
+
+            FloatingSearchButton(action: {
+                searchFocused = true
+            })
+            .ignoresSafeArea(.keyboard)
+            
+            FloatingLocationButton(
+                action: viewModel.centerOnCurrentLocation,
+                isSpoofing: viewModel.activeLocation != nil
+            )
+            .ignoresSafeArea(.keyboard)
+            
+            FloatingAddButton(action: viewModel.openBookmarkCreator)
+            .ignoresSafeArea(.keyboard)
+            
             VStack(spacing: 12) {
                 searchBar
                     .padding(.top, 50)
@@ -50,18 +71,6 @@ struct MapScreen: View {
 
                 Spacer()
             }
-
-            VStack {
-                Spacer()
-                MapControlPanel(viewModel: viewModel)
-                    .padding()
-            }
-
-            FloatingLocationButton(
-                action: viewModel.centerOnCurrentLocation,
-                isSpoofing: viewModel.activeLocation != nil
-            )
-            FloatingAddButton(action: viewModel.openBookmarkCreator)
         }
         .alert(isPresented: $viewModel.showErrorAlert) {
             Alert(
@@ -88,9 +97,7 @@ struct MapScreen: View {
                                })
         }
         .onChange(of: viewModel.searchText) { newValue in
-            if newValue.isEmpty {
-                viewModel.clearSearch()
-            }
+            viewModel.onSearchTextChanged(newValue)
         }
         .toolbar {
             ToolbarItemGroup(placement: .keyboard) {
@@ -227,6 +234,29 @@ private struct FloatingAddButton: View {
     }
 }
 
+private struct FloatingSearchButton: View {
+    var action: () -> Void
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: action) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .padding(14)
+                        .background(Color.accentColor, in: Circle())
+                        .shadow(color: .black.opacity(0.25), radius: 10, y: 4)
+                }
+                .padding(.trailing, 20)
+                .padding(.bottom, 245)
+            }
+        }
+    }
+}
+
 private struct FloatingLocationButton: View {
     var action: () -> Void
     var isSpoofing: Bool
@@ -256,29 +286,32 @@ private struct SearchResultList: View {
     var onSelect: (SearchResult) -> Void
 
     var body: some View {
-        ScrollView {
-            VStack(spacing: 8) {
-                ForEach(results) { result in
-                    Button(action: { onSelect(result) }) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(result.title)
-                                .font(.headline)
-                                .foregroundColor(.primary)
-                            if !result.subtitle.isEmpty {
-                                Text(result.subtitle)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(spacing: 8) {
+                    ForEach(results) { result in
+                        Button(action: { onSelect(result) }) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(result.title)
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                if !result.subtitle.isEmpty {
+                                    Text(result.subtitle)
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
                             }
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(Color(.systemBackground).opacity(0.9), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(Color(.systemBackground).opacity(0.9), in: RoundedRectangle(cornerRadius: 14, style: .continuous))
                     }
                 }
+                .padding(.vertical, 8)
             }
+            .frame(maxHeight: min(geometry.size.height, CGFloat(results.count) * 80 + 16))
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
-        .frame(maxHeight: 240)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
     }
 }

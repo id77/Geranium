@@ -23,8 +23,11 @@ final class MapViewModel: ObservableObject {
     @Published var isSearching: Bool = false
     @Published var showSearchResults: Bool = false
 
-    // 地图上显示的用户位置（蓝色圆点的实际位置）
-    private var mapUserLocation: CLLocationCoordinate2D?
+    // 地图上显示的用户位置(蓝色圆点的实际位置)
+    @Published private var mapUserLocation: CLLocationCoordinate2D?
+    
+    // 搜索防抖
+    private let searchSubject = PassthroughSubject<String, Never>()
 
     var statusInfo: MapStatus {
         if let active = engine.session.activePoint {
@@ -84,21 +87,31 @@ final class MapViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
-        locationAuthorizer.$currentLocation
-            .compactMap { $0 }
-            .receive(on: RunLoop.main)
-            .sink { [weak self] location in
+        // 不再监听 locationAuthorizer.$currentLocation，统一使用地图的 userLocation
+        // 这样可以避免重复居中和时序问题
+        
+        // 设置搜索防抖：用户停止输入 0.5 秒后才触发搜索
+        searchSubject
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink { [weak self] query in
                 guard let self else { return }
-                if !hasCenteredOnUser {
-                    hasCenteredOnUser = true
-                    centerMap(on: location.coordinate)
+                if !query.isEmpty {
+                    self.performSearch()
                 }
             }
             .store(in: &cancellables)
     }
 
     func requestLocationPermission() {
-        locationAuthorizer.requestAuthorisation(always: true)
+        // 如果权限未确定，请求权限
+        if locationAuthorizer.authorisationStatus == .notDetermined {
+            locationAuthorizer.requestAuthorisation(always: false)
+        }
+        // 如果已经有权限但还没开始定位，启动定位
+        else if locationAuthorizer.authorisationStatus == .authorizedWhenInUse || 
+                locationAuthorizer.authorisationStatus == .authorizedAlways {
+            // LocationModel 的 init 中已经会自动开始定位，这里不需要额外操作
+        }
     }
 
     func handleMapTap(_ coordinate: CLLocationCoordinate2D) {
@@ -232,6 +245,11 @@ final class MapViewModel: ObservableObject {
 
     func updateMapUserLocation(_ coordinate: CLLocationCoordinate2D) {
         mapUserLocation = coordinate
+        // 首次获取到地图用户位置时自动居中
+        if !hasCenteredOnUser {
+            hasCenteredOnUser = true
+            centerMap(on: coordinate)
+        }
     }
 
     func openBookmarkCreator() {
@@ -421,7 +439,16 @@ final class MapViewModel: ObservableObject {
         centerMap(on: coordinate)
         showSearchResults = false
         searchResults = []
-        searchText = result.title
+        // 清空搜索文本，避免显示选中的结果名称导致再次搜索
+        searchText = ""
+    }
+
+    func onSearchTextChanged(_ newValue: String) {
+        if newValue.isEmpty {
+            clearSearch()
+        } else {
+            searchSubject.send(newValue)
+        }
     }
 
     func clearSearch() {
@@ -463,13 +490,12 @@ final class MapViewModel: ObservableObject {
             return
         }
 
-        guard let location = locationAuthorizer.currentLocation else {
-            errorMessage = "正在获取位置中...\n如果长时间无法定位，请检查：\n1. 设置 → 定位服务已开启\n2. Geranium 的定位权限已授予"
-            showErrorAlert = true
-            return
+        // 如果有权限但还没获取到位置，尝试使用 CLLocationManager 的位置
+        if let location = locationAuthorizer.currentLocation {
+            centerMap(on: location.coordinate)
         }
-
-        centerMap(on: location.coordinate)
+        // 如果还没有位置数据，静默等待，不显示提示
+        // locationAuthorizer.$currentLocation 的监听会在获取到位置后自动居中
     }
 
     private func startSpoofing(point: LocationPoint, bookmark: Bookmark?) {
