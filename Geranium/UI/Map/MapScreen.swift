@@ -357,7 +357,12 @@ private struct PopularCitiesList: View {
                 .foregroundColor(.secondary)
                 .padding(.horizontal, 8)
             
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 8) {
+            LazyVGrid(columns: [
+                GridItem(.flexible(), spacing: 8),
+                GridItem(.flexible(), spacing: 8),
+                GridItem(.flexible(), spacing: 8),
+                GridItem(.flexible(), spacing: 8)
+            ], spacing: 8) {
                 ForEach(cities, id: \.self) { city in
                     Button(action: { onSelect(city) }) {
                         Text(city)
