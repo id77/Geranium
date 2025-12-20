@@ -9,12 +9,35 @@
 		<key>NSExtensionAttributes</key>
 		<dict>
 			<key>NSExtensionActivationRule</key>
-			<string>TRUEPREDICATE</string>
+            <string>
+                SUBQUERY(
+                    extensionItems,
+                    $extensionItem,
+                    SUBQUERY(
+                        $extensionItem.attachments,
+                        $attachment,
+                        SUBQUERY(
+                            $attachment.registeredTypeIdentifiers, $uti, $uti UTI-CONFORMS-TO "public.url"
+                            AND NOT $uti UTI-CONFORMS-TO "public.file-url"
+                        ).@count == $extensionItem.attachments.@count
+                    ).@count >= 1
+                ).@count >= 1
+                OR
+                SUBQUERY(
+                    extensionItems,
+                    $extensionItem,
+                    SUBQUERY(
+                        $extensionItem.attachments,
+                        $attachment,
+                        ANY $attachment.registeredTypeIdentifiers UTI-CONFORMS-TO "com.apple.mapkit.map-item"
+                    ).@count >= 1
+                ).@count >= 1
+            </string>
 		</dict>
-		<key>NSExtensionPrincipalClass</key>
-		<string>$(PRODUCT_MODULE_NAME).ShareViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.share-services</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>$(PRODUCT_MODULE_NAME).ShareViewController</string>
 	</dict>
 </dict>
 </plist>

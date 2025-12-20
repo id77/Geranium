@@ -15,6 +15,8 @@ struct MapScreen: View {
     @ObservedObject var viewModel: MapViewModel
     @EnvironmentObject private var bookmarkStore: BookmarkStore
     @FocusState private var searchFocused: Bool
+    @State private var showToast = false
+    @State private var toastMessage = ""
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -35,7 +37,9 @@ struct MapScreen: View {
 
             VStack {
                 Spacer()
-                MapControlPanel(viewModel: viewModel)
+                MapControlPanel(viewModel: viewModel, 
+                              showToast: $showToast, 
+                              toastMessage: $toastMessage)
                     .padding()
             }
             .ignoresSafeArea(.keyboard)
@@ -107,6 +111,7 @@ struct MapScreen: View {
                 secondaryButton: .cancel(Text("取消"))
             )
         }
+        .toast(isShowing: $showToast, message: toastMessage)
         .sheet(item: $viewModel.editorMode, onDismiss: {
             viewModel.completeEditorFlow()
         }) { mode in
@@ -174,6 +179,8 @@ struct MapScreen: View {
 
 private struct MapControlPanel: View {
     @ObservedObject var viewModel: MapViewModel
+    @Binding var showToast: Bool
+    @Binding var toastMessage: String
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -184,6 +191,15 @@ private struct MapControlPanel: View {
                     Text(location.coordinateDescription)
                         .font(.caption)
                         .foregroundStyle(.secondary)
+                        .onTapGesture {
+                            #if canImport(UIKit)
+                            UIPasteboard.general.string = location.coordinateDescription
+                            #endif
+                            toastMessage = "坐标已复制"
+                            withAnimation {
+                                showToast = true
+                            }
+                        }
                     // 如果有详细地址备注，也显示出来
                     if let note = location.note, !note.isEmpty {
                         Text(note)

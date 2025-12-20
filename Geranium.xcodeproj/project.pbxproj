@@ -15,6 +15,7 @@
 		363B452057D84096BF4DA3FE /* MapCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77AE80BFEEBE403098CD4E65 /* MapCanvasView.swift */; };
 		3CF769C315BC461BBC34D2FA /* BookmarksScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BD149D46424CFABD9A02C1 /* BookmarksScreen.swift */; };
 		5494540E0365446BAFCA858B /* StatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF190F714203472D9665EAC0 /* StatusBadge.swift */; };
+		C6AD977B64FA48CC8939D412 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 927DC08AE93849498B4AC140 /* ToastView.swift */; };
 		67527A7DB28B4FF6BA5B85B4 /* BookmarkEditorMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87188BFC750641E09EB39179 /* BookmarkEditorMode.swift */; };
 		6C64D385951749AC917E2FF6 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4A4BD6530C437EA975C055 /* MapViewModel.swift */; };
 		7002B0DAE1CB4BB7852C6BF6 /* LocationSpoofingEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */; };
@@ -108,6 +109,7 @@
 		C50E374681994FAF9F0CDC27 /* LocationSpoofingEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSpoofingEngine.swift; sourceTree = "<group>"; };
 		EC201BB4EEC44FA1A9A98803 /* LocationModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationModels.swift; sourceTree = "<group>"; };
 		EF190F714203472D9665EAC0 /* StatusBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadge.swift; sourceTree = "<group>"; };
+		927DC08AE93849498B4AC140 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		F82C58032E37786D00F76DFA /* CoordTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordTransform.swift; sourceTree = "<group>"; };
 		FAA456D12B265FEA00FC7287 /* Geranium.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Geranium.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA456D42B265FEA00FC7287 /* GeraniumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeraniumApp.swift; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				EF190F714203472D9665EAC0 /* StatusBadge.swift */,
+				927DC08AE93849498B4AC140 /* ToastView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -594,6 +597,7 @@
 				11A101A58C814A5FB0B57E9C /* BookmarkEditorView.swift in Sources */,
 				8E4ADBAEBAD243FE9045D0D1 /* SettingsScreen.swift in Sources */,
 				5494540E0365446BAFCA858B /* StatusBadge.swift in Sources */,
+				C6AD977B64FA48CC8939D412 /* ToastView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

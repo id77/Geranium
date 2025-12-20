@@ -7,50 +7,47 @@
 
 import UIKit
 import UniformTypeIdentifiers
-import os.log
 
 class ShareViewController: UIViewController {
-    private let log = OSLog(subsystem: "live.cclerc.geranium", category: "ShareExtension")
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        os_log("[ShareExtension] viewDidLoad called", log: log, type: .info)
+        NSLog("### [ShareExtension] viewDidLoad called")
         view.backgroundColor = .clear
         handleShare()
     }
 
     private func handleShare() {
-        os_log("[ShareExtension] handleShare started", log: log, type: .info)
+        NSLog("### [ShareExtension] handleShare started")
 
         guard let extensionContext = extensionContext,
               let items = extensionContext.inputItems as? [NSExtensionItem],
               let firstItem = items.first,
               let attachments = firstItem.attachments else {
-            os_log("[ShareExtension] No items found, closing", log: log, type: .error)
+            NSLog("### [ShareExtension] No items found, closing")
             closeExtension()
             return
         }
 
-        os_log("[ShareExtension] Found %d attachments", log: log, type: .info, attachments.count)
+        NSLog("### [ShareExtension] Found %d attachments", attachments.count)
 
         // 查找URL
         for provider in attachments {
             if provider.hasItemConformingToTypeIdentifier(UTType.url.identifier) {
-                os_log("[ShareExtension] Found URL provider", log: log, type: .info)
+                NSLog("### [ShareExtension] Found URL provider")
                 provider.loadItem(forTypeIdentifier: UTType.url.identifier, options: nil) { [weak self] (url, error) in
                     guard let self = self else { return }
                     
                     if let error = error {
-                        os_log("[ShareExtension] Error loading URL: %@", log: self.log, type: .error, error.localizedDescription)
+                        NSLog("### [ShareExtension] Error loading URL: %@", error.localizedDescription)
                     }
 
                     guard let mapURL = url as? URL else {
-                        os_log("[ShareExtension] Invalid URL, closing", log: self.log, type: .error)
+                        NSLog("### [ShareExtension] Invalid URL, closing")
                         self.closeExtension()
                         return
                     }
 
-                    os_log("[ShareExtension] Got URL: %@", log: self.log, type: .info, mapURL.absoluteString)
+                    NSLog("### [ShareExtension] Got URL: %@", mapURL.absoluteString)
                     // 传递给主app处理
                     self.sendToMainApp(mapURL: mapURL)
                 }
@@ -58,30 +55,14 @@ class ShareViewController: UIViewController {
             }
         }
 
-        os_log("[ShareExtension] No URL found in attachments", log: log, type: .error)
+        NSLog("### [ShareExtension] No URL found in attachments")
         closeExtension()
     }
 
     private func sendToMainApp(mapURL: URL) {
-        os_log("[ShareExtension] sendToMainApp called with: %@", log: log, type: .info, mapURL.absoluteString)
+        NSLog("### [ShareExtension] sendToMainApp called with: %@", mapURL.absoluteString)
 
-        // 保存到 App Group
-        if let sharedDefaults = UserDefaults(suiteName: "group.live.cclerc.geraniumBookmarks") {
-            sharedDefaults.set(mapURL.absoluteString, forKey: "SharedMapURL")
-            sharedDefaults.set(Date().timeIntervalSince1970, forKey: "SharedMapURLTimestamp")
-            let saveSuccess = sharedDefaults.synchronize()
-            os_log("[ShareExtension] 保存URL到App Group: %@", log: log, type: .info, saveSuccess ? "成功" : "失败")
-        }
-
-        // 发送 Darwin 通知，让主 App 在后台处理
-        CFNotificationCenterPostNotification(
-            CFNotificationCenterGetDarwinNotifyCenter(),
-            CFNotificationName("com.geranium.mapURLShared" as CFString),
-            nil,
-            nil,
-            true
-        )
-        os_log("[ShareExtension] Darwin通知已发送", log: log, type: .info)
+        // ...existing code...
 
         // 显示提示并完成
         DispatchQueue.main.async {
@@ -96,24 +77,30 @@ class ShareViewController: UIViewController {
             // 延迟后关闭扩展并打开主 App
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 alert.dismiss(animated: true) {
-                    // 关闭扩展前打开主 App
-                    let encodedMapURL = mapURL.absoluteString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-                    let geraniumURLString = "geranium://process-map-url?url=\(encodedMapURL)"
-                    
-                    if let geraniumURL = URL(string: geraniumURLString) {
-                        var responder: UIResponder? = self as UIResponder
-                        let selector = #selector(self.openURL(_:))
-                        
-                        while responder != nil {
-                            if responder!.responds(to: selector) && responder != self {
-                                responder!.perform(selector, with: geraniumURL)
-                                os_log("[ShareExtension] 打开主App", log: self.log, type: .info)
-                                break
-                            }
-                            responder = responder?.next
-                        }
+                    // 关闭扩展前打开主 App，使用 URLComponents 构造参数，避免编码问题
+                    var components = URLComponents()
+                    components.scheme = "geranium"
+                    components.host = "process-map-url"
+                    components.queryItems = [
+                        URLQueryItem(name: "url", value: mapURL.absoluteString)
+                    ]
+                    guard let geraniumURL = components.url else {
+                        NSLog("### [ShareExtension] 构造 geraniumURL 失败")
+                        self.closeExtension()
+                        return
                     }
-                    
+
+                    var responder: UIResponder? = self as UIResponder
+                    let selector = #selector(self.openURL(_:))
+                    while responder != nil {
+                        if responder!.responds(to: selector) && responder != self {
+                            responder!.perform(selector, with: geraniumURL)
+                            NSLog("### [ShareExtension] 打开主App")
+                            break
+                        }
+                        responder = responder?.next
+                    }
+
                     // 稍微延迟后关闭扩展
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                         self.closeExtension()

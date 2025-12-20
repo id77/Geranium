@@ -241,7 +241,7 @@ func checkSandbox() -> Bool {
         do {
             try fileManager.removeItem(atPath: "/var/mobile/geraniumtemp")
         } catch {
-            print("Failed to remove sandbox check file")
+            NSLog("### Failed to remove sandbox check file")
         }
         return false
     }
