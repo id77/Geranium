@@ -34,7 +34,8 @@ struct LocationPoint: Equatable {
     }
 
     var coordinateDescription: String {
-        String(format: "%.5f, %.5f", latitude, longitude)
+        // 动态显示所有有效小数位，不做截断
+        "\(latitude), \(longitude)"
     }
 }
 
