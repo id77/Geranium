@@ -83,7 +83,7 @@ struct Bookmark: Identifiable, Equatable {
     }
 
     var coordinateDescription: String {
-        String(format: "%.5f, %.5f", coordinate.latitude, coordinate.longitude)
+        "\(coordinate.latitude), \(coordinate.longitude)"
     }
 
     var locationPoint: LocationPoint {
