@@ -73,22 +73,32 @@ struct MapCanvasView: UIViewRepresentable {
 
         func syncAnnotations(selected: CLLocationCoordinate2D?, active: CLLocationCoordinate2D?) {
             guard let mapView else { return }
-            mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
-
-            // 如果有激活的模拟位置，显示为"当前位置"样式的蓝色圆点
-            if let active {
-                let annotation = MKPointAnnotation()
-                annotation.title = "模拟位置"
-                annotation.coordinate = active
-                mapView.addAnnotation(annotation)
+            // 只在坐标发生变化时刷新annotation，避免属性变化导致闪烁
+            // 记录上次的坐标
+            struct LastCoords {
+                static var selected: CLLocationCoordinate2D?
+                static var active: CLLocationCoordinate2D?
             }
-
-            // 如果有选中但未激活的位置，显示为普通标记
-            if let selected, selected.latitude != active?.latitude || selected.longitude != active?.longitude {
-                let annotation = MKPointAnnotation()
-                annotation.title = "已选择"
-                annotation.coordinate = selected
-                mapView.addAnnotation(annotation)
+            let selectedChanged = (LastCoords.selected == nil && selected != nil) || (LastCoords.selected != nil && selected == nil) || (LastCoords.selected != nil && selected != nil && (LastCoords.selected!.latitude != selected!.latitude || LastCoords.selected!.longitude != selected!.longitude))
+            let activeChanged = (LastCoords.active == nil && active != nil) || (LastCoords.active != nil && active == nil) || (LastCoords.active != nil && active != nil && (LastCoords.active!.latitude != active!.latitude || LastCoords.active!.longitude != active!.longitude))
+            if selectedChanged || activeChanged {
+                mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
+                // 如果有激活的模拟位置，显示为"当前位置"样式的蓝色圆点
+                if let active {
+                    let annotation = MKPointAnnotation()
+                    annotation.title = "模拟位置"
+                    annotation.coordinate = active
+                    mapView.addAnnotation(annotation)
+                }
+                // 如果有选中但未激活的位置，显示为普通标记
+                if let selected, selected.latitude != active?.latitude || selected.longitude != active?.longitude {
+                    let annotation = MKPointAnnotation()
+                    annotation.title = "已选择"
+                    annotation.coordinate = selected
+                    mapView.addAnnotation(annotation)
+                }
+                LastCoords.selected = selected
+                LastCoords.active = active
             }
         }
 

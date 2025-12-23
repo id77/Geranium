@@ -310,7 +310,10 @@ final class MapViewModel: ObservableObject {
 
     func stopSpoofing() {
         engine.stopSpoofing()
+        // 主动刷新一次userLocation，提升体验
+        locationAuthorizer.requestAuthorisation(always: false)
         bookmarkStore.markAsLastUsed(nil)
+        // 不清空选中位置，保留用户选点体验
     }
 
     func performSearch() {
@@ -497,42 +500,34 @@ final class MapViewModel: ObservableObject {
     }
 
     func centerOnCurrentLocation() {
-        // 如果正在模拟定位，居中到模拟位置
+        // 优先：如果正在模拟定位，居中到模拟位置
         if let activeLocation = engine.session.activePoint {
             centerMap(on: activeLocation.coordinate)
             return
         }
-        
-        // 未模拟时，优先使用地图的 userLocation（真实位置的蓝色圆点坐标）
+        // 否则优先使用地图的 userLocation（强制刷新一次）
+        locationAuthorizer.requestAuthorisation(always: false)
         if let location = mapUserLocation {
             centerMap(on: location)
             return
         }
-
         // 如果没有地图的 userLocation，则使用 CLLocationManager 的位置
-        // 检查位置权限状态
         let authStatus = locationAuthorizer.authorisationStatus
-
         if authStatus == .denied || authStatus == .restricted {
             errorMessage = "位置权限被拒绝。\n请前往：设置 → 隐私与安全 → 定位服务 → Geranium\n选择\"使用 App 期间\"以启用定位功能。"
             showErrorAlert = true
             return
         }
-
         if authStatus == .notDetermined {
             errorMessage = "TrollStore 应用需要手动授予位置权限。\n请前往：设置 → 隐私与安全 → 定位服务 → Geranium\n选择\"使用 App 期间\"。"
             showErrorAlert = true
-            // 尝试请求权限（可能不会弹窗，但会更新状态）
             locationAuthorizer.requestAuthorisation(always: false)
             return
         }
-
-        // 如果有权限但还没获取到位置，尝试使用 CLLocationManager 的位置
         if let location = locationAuthorizer.currentLocation {
             centerMap(on: location.coordinate)
         }
         // 如果还没有位置数据，静默等待，不显示提示
-        // locationAuthorizer.$currentLocation 的监听会在获取到位置后自动居中
     }
 
     private func startSpoofing(point: LocationPoint, bookmark: Bookmark?) {
