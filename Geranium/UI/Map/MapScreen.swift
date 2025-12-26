@@ -409,7 +409,7 @@ private struct SearchResultList: View {
                 VStack(spacing: 8) {
                     ForEach(results) { result in
                         HStack(spacing: 12) {
-                            // 左侧：点击查看详情
+                            // 左侧：点击查看详情（整行可点）
                             Button(action: { onSelect(result) }) {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text(result.title)
@@ -423,9 +423,11 @@ private struct SearchResultList: View {
                                     }
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .contentShape(Rectangle()) // 让空白区域也可点
                             }
                             .buttonStyle(.plain)
-                            
+                            .frame(maxWidth: .infinity, alignment: .leading) // 关键：撑满整行
+
                             // 右侧：定位按钮
                             Button(action: { onStartSpoofing(result) }) {
                                 Image(systemName: "location.fill")

@@ -330,7 +330,7 @@ final class MapViewModel: ObservableObject {
             let locationPoint = LocationPoint(
                 coordinate: coordinate,
                 label: "坐标位置",
-                note: String(format: "%.6f, %.6f", coordinate.latitude, coordinate.longitude)
+                note: "\(coordinate.latitude), \(coordinate.longitude)"
             )
             selectedLocation = locationPoint
             centerMap(on: coordinate)
@@ -351,7 +351,7 @@ final class MapViewModel: ObservableObject {
                                 label: name,
                                 note: locality
                             )
-                            self.searchText = name
+                            // 不再自动覆盖searchText，避免二次搜索导致混乱
                             self.isSearching = false
                         }
                     } else {
