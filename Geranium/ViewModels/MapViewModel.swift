@@ -309,9 +309,7 @@ final class MapViewModel: ObservableObject {
     }
 
     func stopSpoofing() {
-        engine.stopSpoofing()
-        // 主动刷新一次userLocation，提升体验
-        locationAuthorizer.requestAuthorisation(always: false)
+        engine.stopSpoofing(locationModel: locationAuthorizer)
         bookmarkStore.markAsLastUsed(nil)
         // 不清空选中位置，保留用户选点体验
     }

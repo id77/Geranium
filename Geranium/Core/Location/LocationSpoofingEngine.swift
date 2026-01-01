@@ -33,8 +33,8 @@ final class LocationSpoofingEngine: ObservableObject {
         session.lastError = nil
     }
 
-    func stopSpoofing() {
-        LocSimManager.stopLocSim()
+    func stopSpoofing(locationModel: LocationModel? = nil) {
+        LocSimManager.stopLocSim(locationModel: locationModel)
         session.state = .idle
     }
 

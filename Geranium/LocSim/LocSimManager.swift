@@ -29,11 +29,14 @@ class LocSimManager {
     }
     
     /// Stops location simulation
-    static func stopLocSim(){
+    /// 停止模拟定位，并重启系统定位服务
+    static func stopLocSim(locationModel: LocationModel? = nil){
         simManager.stopLocationSimulation()
         simManager.clearSimulatedLocations()
         simManager.flush()
         post_required_timezone_update();
+        // 自动重启系统定位服务
+        locationModel?.requestAuthorisation(always: false)
     }
 }
 
