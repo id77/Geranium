@@ -217,15 +217,19 @@ final class MapViewModel: ObservableObject {
     }
 
     func handleMapLongPress(_ coordinate: CLLocationCoordinate2D) {
-        // 先设置一个临时的位置点
-        selectedLocation = LocationPoint(coordinate: coordinate, label: "正在获取地址...")
+        // 立即设置位置点并开始模拟，不等待地理编码
+        let locationPoint = LocationPoint(coordinate: coordinate, label: "选中位置")
+        selectedLocation = locationPoint
 
         // 自动居中到长按的位置
         if settings.autoCenterOnSelection {
             centerMap(on: coordinate)
         }
 
-        // 进行反向地理编码以获取地点名称和详细地址
+        // 立即开始模拟，不等待地理编码
+        startSpoofing(point: locationPoint, bookmark: nil)
+
+        // 在后台异步获取地址信息并更新
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let geocoder = CLGeocoder()
 
@@ -233,53 +237,32 @@ final class MapViewModel: ObservableObject {
             do {
                 let placemarks = try await geocoder.reverseGeocodeLocation(location)
                 if let placemark = placemarks.first {
-                    // 获取地点名称
                     let name = placemark.name ?? placemark.thoroughfare ?? "选中位置"
-
-                    // 构建详细地址（省市区街道）
                     var addressComponents: [String] = []
-                    if let country = placemark.country {
-                        addressComponents.append(country)
-                    }
-                    if let administrativeArea = placemark.administrativeArea {
-                        addressComponents.append(administrativeArea)
-                    }
-                    if let locality = placemark.locality {
-                        addressComponents.append(locality)
-                    }
-                    if let subLocality = placemark.subLocality {
-                        addressComponents.append(subLocality)
-                    }
-                    if let thoroughfare = placemark.thoroughfare {
-                        addressComponents.append(thoroughfare)
-                    }
-                    if let subThoroughfare = placemark.subThoroughfare {
-                        addressComponents.append(subThoroughfare)
-                    }
-
+                    if let country = placemark.country { addressComponents.append(country) }
+                    if let administrativeArea = placemark.administrativeArea { addressComponents.append(administrativeArea) }
+                    if let locality = placemark.locality { addressComponents.append(locality) }
+                    if let subLocality = placemark.subLocality { addressComponents.append(subLocality) }
+                    if let thoroughfare = placemark.thoroughfare { addressComponents.append(thoroughfare) }
+                    if let subThoroughfare = placemark.subThoroughfare { addressComponents.append(subThoroughfare) }
                     let detailedAddress = addressComponents.joined(separator: " ")
 
-                    // 更新选中的位置点，包含地点名称和详细地址
-                    let locationPoint = LocationPoint(
+                    // 异步更新地址信息
+                    let updatedPoint = LocationPoint(
                         coordinate: coordinate,
                         label: name,
                         note: detailedAddress.isEmpty ? nil : detailedAddress
                     )
-                    selectedLocation = locationPoint
-
-                    // 直接开始模拟
-                    startSpoofing(point: locationPoint, bookmark: nil)
-                } else {
-                    // 如果没有获取到地址信息，使用默认名称并开始模拟
-                    let locationPoint = LocationPoint(coordinate: coordinate, label: "选中位置")
-                    selectedLocation = locationPoint
-                    startSpoofing(point: locationPoint, bookmark: nil)
+                    selectedLocation = updatedPoint
+                    // 更新持久化的地址信息
+                    if engine.session.isActive {
+                        engine.restoreSpoofingState(updatedPoint)
+                        UserDefaults.standard.set(name, forKey: "spoofingLabel")
+                        UserDefaults.standard.set(detailedAddress, forKey: "spoofingNote")
+                    }
                 }
             } catch {
-                // 地理编码失败，使用默认名称并开始模拟
-                let locationPoint = LocationPoint(coordinate: coordinate, label: "选中位置")
-                selectedLocation = locationPoint
-                startSpoofing(point: locationPoint, bookmark: nil)
+                // 地理编码失败，保持原有的简单标签
             }
         }
     }
