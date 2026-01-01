@@ -119,7 +119,8 @@ final class MapViewModel: ObservableObject {
                 if !session.isActive {
                     bookmarkStore.markAsLastUsed(nil)
                 }
-                objectWillChange.send()
+                // 不需要手动调用 objectWillChange.send()
+                // SwiftUI 会自动检测 engine.session 的变化并刷新依赖它的计算属性
             }
             .store(in: &cancellables)
 
