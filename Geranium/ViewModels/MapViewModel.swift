@@ -9,6 +9,7 @@ import Foundation
 import MapKit
 import Combine
 import SwiftUI
+import UIKit
 
 @MainActor
 final class MapViewModel: ObservableObject {
@@ -34,9 +35,11 @@ final class MapViewModel: ObservableObject {
 
     var statusInfo: MapStatus {
         if let active = engine.session.activePoint {
+            // 优先显示详细地址（note），如果没有则显示标签，最后才显示坐标
+            let detail = active.note ?? active.label ?? active.coordinateDescription
             return MapStatus(
                 title: "定位模拟已开启",
-                detail: active.label ?? active.coordinateDescription,
+                detail: detail,
                 isActive: true
             )
         }
@@ -78,10 +81,35 @@ final class MapViewModel: ObservableObject {
         self.mapRegion = MKCoordinateRegion(center: defaultCenter,
                                             span: MKCoordinateSpan(latitudeDelta: settings.mapSpanDegrees,
                                                                    longitudeDelta: settings.mapSpanDegrees))
-        
+
         // 加载最近搜索记录
         if let saved = UserDefaults.standard.stringArray(forKey: "recentSearches") {
             self.recentSearches = Array(saved.prefix(6))
+        }
+
+        // 立即尝试恢复模拟状态（不等待当前位置）
+        NSLog("🚀 MapViewModel 初始化，尝试恢复模拟状态")
+        if let restoredPoint = LocSimManager.checkAndRestoreSpoofingState(currentLocation: locationAuthorizer.currentLocation) {
+            NSLog("✅ 恢复模拟状态成功")
+            // 模拟依然有效，恢复状态
+            engine.restoreSpoofingState(restoredPoint)
+            selectedLocation = restoredPoint
+            
+            // 居中到恢复的位置
+            if settings.autoCenterOnSelection {
+                centerMap(on: restoredPoint.coordinate)
+            }
+            
+            // 异步获取更详细的地址信息（如果需要）
+            if restoredPoint.note == nil || restoredPoint.note?.isEmpty == true {
+                Task { @MainActor in
+                    await updateLocationAddress(for: restoredPoint)
+                }
+            }
+        } else {
+            NSLog("❌ 没有找到有效的模拟状态")
+            // 模拟无效或不存在，清除状态
+            engine.restoreSpoofingState(nil)
         }
 
         engine.$session
@@ -95,9 +123,18 @@ final class MapViewModel: ObservableObject {
             }
             .store(in: &cancellables)
 
+        // 监听 app 从后台回到前台，重新检查模拟状态
+        NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
+            .sink { [weak self] _ in
+                guard let self else { return }
+                NSLog("📱 App 进入前台，重新检查模拟状态")
+                self.recheckSpoofingState()
+            }
+            .store(in: &cancellables)
+
         // 不再监听 locationAuthorizer.$currentLocation，统一使用地图的 userLocation
         // 这样可以避免重复居中和时序问题
-        
+
         // 设置搜索防抖：用户停止输入 0.5 秒后才触发搜索
         searchSubject
             .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
@@ -543,6 +580,96 @@ final class MapViewModel: ObservableObject {
             mapRegion = MKCoordinateRegion(center: coordinate, span: mapRegion.span)
         }
         lastMapCenter = coordinate
+    }
+    
+    /// 更新位置点的地址信息
+    private func updateLocationAddress(for point: LocationPoint) async {
+        let location = CLLocation(latitude: point.latitude, longitude: point.longitude)
+        let geocoder = CLGeocoder()
+        
+        do {
+            let placemarks = try await geocoder.reverseGeocodeLocation(location)
+            if let placemark = placemarks.first {
+                // 获取地点名称
+                let name = placemark.name ?? placemark.thoroughfare ?? point.label ?? "模拟位置"
+                
+                // 构建详细地址
+                var addressComponents: [String] = []
+                if let country = placemark.country {
+                    addressComponents.append(country)
+                }
+                if let administrativeArea = placemark.administrativeArea {
+                    addressComponents.append(administrativeArea)
+                }
+                if let locality = placemark.locality {
+                    addressComponents.append(locality)
+                }
+                if let subLocality = placemark.subLocality {
+                    addressComponents.append(subLocality)
+                }
+                if let thoroughfare = placemark.thoroughfare {
+                    addressComponents.append(thoroughfare)
+                }
+                if let subThoroughfare = placemark.subThoroughfare {
+                    addressComponents.append(subThoroughfare)
+                }
+                
+                let detailedAddress = addressComponents.joined(separator: " ")
+                
+                // 更新选中的位置点
+                let updatedPoint = LocationPoint(
+                    coordinate: point.coordinate,
+                    label: name,
+                    note: detailedAddress.isEmpty ? nil : detailedAddress
+                )
+                
+                await MainActor.run {
+                    selectedLocation = updatedPoint
+                    // 如果当前正在模拟这个位置，也更新 engine 中的状态
+                    if engine.session.isActive {
+                        engine.restoreSpoofingState(updatedPoint)
+                        // 更新持久化的地址信息
+                        UserDefaults.standard.set(name, forKey: "spoofingLabel")
+                        UserDefaults.standard.set(detailedAddress, forKey: "spoofingNote")
+                    }
+                }
+            }
+        } catch {
+            // 地理编码失败，保持原有信息
+            NSLog("Failed to update address: \(error.localizedDescription)")
+        }
+    }
+    
+    /// 重新检查模拟状态（当 app 从后台回到前台时调用）
+    private func recheckSpoofingState() {
+        // 如果当前没有激活的模拟，不需要检查
+        guard engine.session.isActive else {
+            NSLog("💤 当前没有激活的模拟，无需检查")
+            return
+        }
+        
+        // 延迟一下，等待位置更新
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5秒
+            
+            if let restoredPoint = LocSimManager.checkAndRestoreSpoofingState(currentLocation: locationAuthorizer.currentLocation) {
+                NSLog("✅ 模拟状态有效，保持当前状态")
+                // 模拟依然有效，确保状态同步
+                engine.restoreSpoofingState(restoredPoint)
+                selectedLocation = restoredPoint
+            } else {
+                NSLog("❌ 模拟状态已失效，清除UI状态并居中到当前位置")
+                // 模拟已失效，清除状态
+                engine.restoreSpoofingState(nil)
+                selectedLocation = nil
+                
+                // 居中到当前真实位置
+                if let currentLocation = locationAuthorizer.currentLocation {
+                    NSLog("📍 居中到当前位置: \(currentLocation.coordinate.latitude), \(currentLocation.coordinate.longitude)")
+                    centerMap(on: currentLocation.coordinate)
+                }
+            }
+        }
     }
 }
 

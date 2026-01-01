@@ -12,20 +12,62 @@ import CoreLocation
 class LocSimManager {
     static let simManager = CLSimulationManager()
     
+    // 持久化键名
+    private static let isSpoofingKey = "isSpoofing"
+    private static let spoofingCoordinateKey = "spoofingCoordinate"
+    private static let spoofingLabelKey = "spoofingLabel"
+    private static let spoofingNoteKey = "spoofingNote"
+    
+    /// 检查模拟是否真的在运行
+    /// 通过对比真实位置和保存的模拟位置来判断
+    static func isSimulationActuallyRunning(currentLocation: CLLocation?, savedCoordinate: CLLocationCoordinate2D) -> Bool {
+        guard let currentLocation = currentLocation else {
+            // 没有当前位置，无法判断，暂时认为在运行
+            return true
+        }
+        
+        let savedLocation = CLLocation(latitude: savedCoordinate.latitude, longitude: savedCoordinate.longitude)
+        let distance = savedLocation.distance(from: currentLocation)
+        
+        // 如果当前位置和保存的模拟位置距离很近（< 50米），说明模拟还在运行
+        // 如果距离很远（> 1000米），说明模拟已经停止，系统回到了真实位置
+        if distance > 1000 {
+            NSLog("⚠️ 当前位置距离保存的模拟位置 \(distance) 米，判断模拟已停止")
+            return false
+        }
+        
+        return true
+    }
+    
     /// Updates timezone
     static func post_required_timezone_update(){
         CFNotificationCenterPostNotificationWithOptions(CFNotificationCenterGetDarwinNotifyCenter(), .init("AutomaticTimeZoneUpdateNeeded" as CFString), nil, nil, kCFNotificationDeliverImmediately);
     }
     
     /// Starts a location simulation of specified argument "location"
-    // TODO: save
-    static func startLocSim(location: CLLocation) {
+    static func startLocSim(location: CLLocation, point: LocationPoint) {
         simManager.stopLocationSimulation()
         simManager.clearSimulatedLocations()
         simManager.appendSimulatedLocation(location)
         simManager.flush()
         simManager.startLocationSimulation()
-        post_required_timezone_update();
+        post_required_timezone_update()
+        
+        // 持久化模拟状态和坐标信息
+        NSLog("💾 开始持久化模拟状态")
+        NSLog("📍 坐标: \(point.latitude), \(point.longitude)")
+        NSLog("🏷️ 标签: \(point.label ?? "无")")
+        NSLog("🏠 地址: \(point.note ?? "无")")
+        
+        UserDefaults.standard.set(true, forKey: isSpoofingKey)
+        UserDefaults.standard.set([point.latitude, point.longitude], forKey: spoofingCoordinateKey)
+        UserDefaults.standard.set(point.label, forKey: spoofingLabelKey)
+        UserDefaults.standard.set(point.note, forKey: spoofingNoteKey)
+        UserDefaults.standard.synchronize() // 强制立即同步
+        
+        NSLog("✅ 持久化完成")
+        NSLog("   - isSpoofing: \(UserDefaults.standard.bool(forKey: isSpoofingKey))")
+        NSLog("   - coordinate: \(UserDefaults.standard.array(forKey: spoofingCoordinateKey) ?? [])")
     }
     
     /// Stops location simulation
@@ -34,9 +76,79 @@ class LocSimManager {
         simManager.stopLocationSimulation()
         simManager.clearSimulatedLocations()
         simManager.flush()
-        post_required_timezone_update();
+        post_required_timezone_update()
+        
+        // 清除持久化状态
+        UserDefaults.standard.set(false, forKey: isSpoofingKey)
+        UserDefaults.standard.removeObject(forKey: spoofingCoordinateKey)
+        UserDefaults.standard.removeObject(forKey: spoofingLabelKey)
+        UserDefaults.standard.removeObject(forKey: spoofingNoteKey)
+        
         // 自动重启系统定位服务
         locationModel?.requestAuthorisation(always: false)
+    }
+    
+    /// 检查并同步模拟状态
+    /// 在 app 启动时调用，对比当前位置和保存的模拟位置
+    /// 如果误差小于 50 米，认为模拟依然有效
+    static func checkAndRestoreSpoofingState(currentLocation: CLLocation?) -> LocationPoint? {
+        // 检查是否有持久化的模拟状态
+        let isSpoofing = UserDefaults.standard.bool(forKey: isSpoofingKey)
+        NSLog("🔍 检查持久化状态: isSpoofing = \(isSpoofing)")
+        
+        guard isSpoofing,
+              let coordArray = UserDefaults.standard.array(forKey: spoofingCoordinateKey) as? [Double],
+              coordArray.count == 2 else {
+            NSLog("❌ 没有找到持久化的模拟状态")
+            return nil
+        }
+        
+        let savedCoordinate = CLLocationCoordinate2D(latitude: coordArray[0], longitude: coordArray[1])
+        let label = UserDefaults.standard.string(forKey: spoofingLabelKey)
+        let note = UserDefaults.standard.string(forKey: spoofingNoteKey)
+        
+        NSLog("✅ 找到持久化坐标: \(savedCoordinate.latitude), \(savedCoordinate.longitude)")
+        NSLog("📍 标签: \(label ?? "无"), 地址: \(note ?? "无")")
+        
+        // 检查模拟是否真的在运行
+        let actuallyRunning = isSimulationActuallyRunning(currentLocation: currentLocation, savedCoordinate: savedCoordinate)
+        
+        if !actuallyRunning {
+            NSLog("⚠️ 持久化状态显示模拟中，但实际模拟已停止（可能被其他软件关闭），清除持久化状态")
+            // 清除持久化状态
+            UserDefaults.standard.set(false, forKey: isSpoofingKey)
+            UserDefaults.standard.removeObject(forKey: spoofingCoordinateKey)
+            UserDefaults.standard.removeObject(forKey: spoofingLabelKey)
+            UserDefaults.standard.removeObject(forKey: spoofingNoteKey)
+            return nil
+        }
+        
+        let savedLocation = CLLocation(latitude: savedCoordinate.latitude, longitude: savedCoordinate.longitude)
+        
+        // 如果有当前位置，检查误差
+        if let currentLocation = currentLocation {
+            let distance = savedLocation.distance(from: currentLocation)
+            NSLog("📏 当前位置与保存位置距离: \(distance) 米")
+            
+            // 误差小于 50 米，认为模拟依然有效
+            // 其他 app 定位时跳动可能导致误差较大，允许 549-556 米的误差范围
+            if distance < 50 || (549..<557).contains(distance) {
+                NSLog("✅ 距离小于50米，模拟依然有效，恢复状态")
+                return LocationPoint(coordinate: savedCoordinate, label: label, note: note)
+            } else {
+                NSLog("⚠️ 距离大于50米，模拟已失效，清除状态")
+                // 误差过大，清除持久化状态
+                UserDefaults.standard.set(false, forKey: isSpoofingKey)
+                UserDefaults.standard.removeObject(forKey: spoofingCoordinateKey)
+                UserDefaults.standard.removeObject(forKey: spoofingLabelKey)
+                UserDefaults.standard.removeObject(forKey: spoofingNoteKey)
+                return nil
+            }
+        } else {
+            // 没有当前位置，直接恢复（因为如果模拟还在运行，系统位置就是模拟位置）
+            NSLog("⚠️ 没有获取到当前位置，直接恢复模拟状态")
+            return LocationPoint(coordinate: savedCoordinate, label: label, note: note)
+        }
     }
 }
 

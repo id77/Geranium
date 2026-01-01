@@ -25,7 +25,7 @@ final class LocationSpoofingEngine: ObservableObject {
                                   verticalAccuracy: 5,
                                   timestamp: Date())
 
-        LocSimManager.startLocSim(location: location)
+        LocSimManager.startLocSim(location: location, point: point)
 
         // 但在session中保存原始坐标（用于地图显示标记）
         // 这样地图标记会显示在用户点击的位置，而不是转换后的位置
@@ -36,6 +36,15 @@ final class LocationSpoofingEngine: ObservableObject {
     func stopSpoofing(locationModel: LocationModel? = nil) {
         LocSimManager.stopLocSim(locationModel: locationModel)
         session.state = .idle
+    }
+    
+    /// 恢复持久化的模拟状态
+    func restoreSpoofingState(_ point: LocationPoint?) {
+        if let point = point {
+            session.state = .running(point)
+        } else {
+            session.state = .idle
+        }
     }
 
     func recordError(_ error: LocationSpoofingError) {
