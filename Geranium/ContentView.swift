@@ -152,20 +152,31 @@ struct ContentView: View {
 
         // 延迟执行，确保tab切换完成
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            // 先设置初始点
-            let locationPoint = LocationPoint(coordinate: coordinate, label: "分享的位置", note: nil, needsCoordinateTransform: false)
+            // 先设置初始点并立即开始模拟（使用坐标字符串作为临时地址）
+            let coordString = String(format: "%.6f, %.6f", coordinate.latitude, coordinate.longitude)
+            let locationPoint = LocationPoint(
+                coordinate: coordinate, 
+                label: "分享的位置", 
+                note: coordString, 
+                needsCoordinateTransform: false
+            )
             self.appModel.mapViewModel.selectedLocation = locationPoint
             self.appModel.mapViewModel.mapRegion = MKCoordinateRegion(
                 center: coordinate,
                 span: MKCoordinateSpan(latitudeDelta: self.appModel.settings.mapSpanDegrees,
                                       longitudeDelta: self.appModel.settings.mapSpanDegrees)
             )
-            // 反向地理编码获取地名和详细地址
+            
+            // 立即开始模拟，不等待地理编码
+            self.appModel.mapViewModel.startSpoofingSelected()
+            
+            // 在后台异步获取详细地址并更新
             let geocoder = CLGeocoder()
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
             geocoder.reverseGeocodeLocation(location) { placemarks, error in
                 var placeName = "分享的位置"
-                var detailedAddress = ""
+                var detailedAddress = coordString // 默认使用坐标
+                
                 if let placemark = placemarks?.first {
                     placeName = placemark.name ?? placemark.locality ?? "分享的位置"
                     var addressComponents: [String] = []
@@ -175,21 +186,36 @@ struct ContentView: View {
                     if let subLocality = placemark.subLocality { addressComponents.append(subLocality) }
                     if let thoroughfare = placemark.thoroughfare { addressComponents.append(thoroughfare) }
                     if let subThoroughfare = placemark.subThoroughfare { addressComponents.append(subThoroughfare) }
-                    detailedAddress = addressComponents.joined(separator: " ")
+                    let fullAddress = addressComponents.joined(separator: " ")
+                    if !fullAddress.isEmpty {
+                        detailedAddress = fullAddress
+                    }
                 }
+                
                 DispatchQueue.main.async {
-                    // 关键：赋值详细地址到 selectedLocation.note
-                    let updatedPoint = LocationPoint(coordinate: coordinate, label: placeName, note: detailedAddress.isEmpty ? "从地图分享添加" : detailedAddress, needsCoordinateTransform: false)
+                    // 更新详细地址
+                    let updatedPoint = LocationPoint(
+                        coordinate: coordinate, 
+                        label: placeName, 
+                        note: detailedAddress, 
+                        needsCoordinateTransform: false
+                    )
                     self.appModel.mapViewModel.selectedLocation = updatedPoint
+                    
                     // 自动收藏
                     self.appModel.bookmarkStore.addBookmark(
                         name: placeName,
                         coordinate: coordinate,
-                        note: detailedAddress.isEmpty ? "从地图分享添加" : detailedAddress
+                        note: detailedAddress
                     )
+                    
+                    // 更新持久化的地址信息（如果正在模拟）
+                    if self.appModel.mapViewModel.activeLocation != nil {
+                        UserDefaults.standard.set(placeName, forKey: "spoofingLabel")
+                        UserDefaults.standard.set(detailedAddress, forKey: "spoofingNote")
+                    }
                 }
             }
-            self.appModel.mapViewModel.startSpoofingSelected()
         }
     }
 
