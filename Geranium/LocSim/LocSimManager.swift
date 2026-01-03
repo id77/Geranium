@@ -90,7 +90,7 @@ class LocSimManager {
     
     /// 检查并同步模拟状态
     /// 在 app 启动时调用，对比当前位置和保存的模拟位置
-    /// 如果误差小于 50 米，认为模拟依然有效
+    /// 如果误差小于 1000 米，认为模拟依然有效
     static func checkAndRestoreSpoofingState(currentLocation: CLLocation?) -> LocationPoint? {
         // 检查是否有持久化的模拟状态
         let isSpoofing = UserDefaults.standard.bool(forKey: isSpoofingKey)
@@ -130,13 +130,13 @@ class LocSimManager {
             let distance = savedLocation.distance(from: currentLocation)
             NSLog("📏 当前位置与保存位置距离: \(distance) 米")
             
-            // 误差小于 50 米，认为模拟依然有效
-            // 其他 app 定位时跳动可能导致误差较大，允许 549-556 米的误差范围
-            if distance < 50 || (549..<557).contains(distance) {
-                NSLog("✅ 距离小于50米，模拟依然有效，恢复状态")
+            // 误差小于 1000 米，认为模拟依然有效
+            // 其他 app 定位时跳动可能导致误差较大，允许 1000 米的误差范围
+            if distance < 1000 {
+                NSLog("✅ 距离小于1000米，模拟依然有效，恢复状态")
                 return LocationPoint(coordinate: savedCoordinate, label: label, note: note)
             } else {
-                NSLog("⚠️ 距离大于50米，模拟已失效，清除状态")
+                NSLog("⚠️ 距离大于1000米，模拟已失效，清除状态")
                 // 误差过大，清除持久化状态
                 UserDefaults.standard.set(false, forKey: isSpoofingKey)
                 UserDefaults.standard.removeObject(forKey: spoofingCoordinateKey)
