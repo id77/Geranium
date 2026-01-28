@@ -117,6 +117,10 @@ struct ContentView: View {
         
         NSLog("### [MainApp] 查询参数: \(queryItems.map { "\($0.name)=\($0.value ?? "nil")" }.joined(separator: ", "))")
 
+        // 检查是否需要收藏
+        let shouldCollect = queryItems.first(where: { $0.name == "not_collect" })?.value != "1"
+        NSLog("### [MainApp] 是否收藏: \(shouldCollect)")
+
         guard let encodedURLString = queryItems.first(where: { $0.name == "url" })?.value else {
             NSLog("### [MainApp] 错误: 找不到 url 参数")
             return
@@ -202,12 +206,17 @@ struct ContentView: View {
                     )
                     self.appModel.mapViewModel.selectedLocation = updatedPoint
                     
-                    // 自动收藏
-                    self.appModel.bookmarkStore.addBookmark(
-                        name: placeName,
-                        coordinate: coordinate,
-                        note: detailedAddress
-                    )
+                    // 根据 not_collect 参数决定是否自动收藏
+                    if shouldCollect {
+                        NSLog("### [MainApp] 自动收藏位置: \(placeName)")
+                        self.appModel.bookmarkStore.addBookmark(
+                            name: placeName,
+                            coordinate: coordinate,
+                            note: detailedAddress
+                        )
+                    } else {
+                        NSLog("### [MainApp] 跳过自动收藏 (not_collect=1)")
+                    }
                     
                     // 更新持久化的地址信息（如果正在模拟）
                     if self.appModel.mapViewModel.activeLocation != nil {
