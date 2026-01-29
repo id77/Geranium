@@ -71,8 +71,10 @@ class LocSimManager {
     }
     
     /// Stops location simulation
-    /// 停止模拟定位，并重启系统定位服务
+    /// 停止模拟定位，并强制重启系统定位服务以加快恢复
     static func stopLocSim(locationModel: LocationModel? = nil){
+        NSLog("🛑 停止位置模拟...")
+        
         simManager.stopLocationSimulation()
         simManager.clearSimulatedLocations()
         simManager.flush()
@@ -83,9 +85,10 @@ class LocSimManager {
         UserDefaults.standard.removeObject(forKey: spoofingCoordinateKey)
         UserDefaults.standard.removeObject(forKey: spoofingLabelKey)
         UserDefaults.standard.removeObject(forKey: spoofingNoteKey)
+        UserDefaults.standard.synchronize()
         
-        // 自动重启系统定位服务
-        locationModel?.requestAuthorisation(always: false)
+        // 强制重启系统定位服务，加快恢复真实位置
+        locationModel?.forceRestartLocationServices()
     }
     
     /// 检查并同步模拟状态
@@ -190,6 +193,33 @@ class LocationModel: NSObject, ObservableObject {
         }
         locationManager.startUpdatingLocation()
     }
+    
+    /// 强制重启定位服务，用于停止模拟后快速恢复真实位置
+    public func forceRestartLocationServices() {
+        NSLog("🔄 强制重启定位服务")
+        
+        // 先停止定位
+        locationManager.stopUpdatingLocation()
+        
+        // 清除缓存的位置
+        currentLocation = nil
+        
+        // 设置最高精度，加快定位
+        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        
+        // 设置距离过滤器为无，确保收到所有位置更新
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        
+        // 重新开始定位
+        locationManager.startUpdatingLocation()
+        
+        // 请求单次高精度定位（iOS 9+）
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
+        }
+        
+        NSLog("✅ 定位服务已重启，等待新位置...")
+    }
 }
 
 extension LocationModel: CLLocationManagerDelegate {
@@ -205,6 +235,14 @@ extension LocationModel: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         DispatchQueue.main.async {
             self.currentLocation = location
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        NSLog("⚠️ 定位失败: \(error.localizedDescription)")
+        // 定位失败后继续尝试
+        if CLLocationManager.locationServicesEnabled() {
+            manager.startUpdatingLocation()
         }
     }
 }
