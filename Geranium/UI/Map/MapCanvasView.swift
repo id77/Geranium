@@ -81,6 +81,12 @@ struct MapCanvasView: UIViewRepresentable {
             }
             let selectedChanged = (LastCoords.selected == nil && selected != nil) || (LastCoords.selected != nil && selected == nil) || (LastCoords.selected != nil && selected != nil && (LastCoords.selected!.latitude != selected!.latitude || LastCoords.selected!.longitude != selected!.longitude))
             let activeChanged = (LastCoords.active == nil && active != nil) || (LastCoords.active != nil && active == nil) || (LastCoords.active != nil && active != nil && (LastCoords.active!.latitude != active!.latitude || LastCoords.active!.longitude != active!.longitude))
+            
+            // 特别处理：当 active 从有值变为 nil 时（停止模拟），立即移除模拟标注
+            if LastCoords.active != nil && active == nil {
+                NSLog("📍 停止模拟，移除模拟位置标注")
+            }
+            
             if selectedChanged || activeChanged {
                 mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
                 // 如果有激活的模拟位置，显示为"当前位置"样式的蓝色圆点
@@ -89,6 +95,7 @@ struct MapCanvasView: UIViewRepresentable {
                     annotation.title = "模拟位置"
                     annotation.coordinate = active
                     mapView.addAnnotation(annotation)
+                    NSLog("📍 添加模拟位置标注: \(active.latitude), \(active.longitude)")
                 }
                 // 如果有选中但未激活的位置，显示为普通标记
                 if let selected, selected.latitude != active?.latitude || selected.longitude != active?.longitude {

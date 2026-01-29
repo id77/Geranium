@@ -333,6 +333,15 @@ final class MapViewModel: ObservableObject {
         engine.stopSpoofing(locationModel: locationAuthorizer)
         bookmarkStore.markAsLastUsed(nil)
         // 不清空选中位置，保留用户选点体验
+        
+        // 注意：不要清除 mapUserLocation，因为 MKMapView 会自动更新它
+        // 设置标志位，允许下次获取到新的真实位置时自动居中
+        hasCenteredOnUser = false
+        
+        // 强制重新请求位置更新
+        locationAuthorizer.requestAuthorisation(always: false)
+        
+        NSLog("📍 已停止模拟，等待真实位置更新...")
     }
 
     func performSearch() {
@@ -524,13 +533,8 @@ final class MapViewModel: ObservableObject {
             centerMap(on: activeLocation.coordinate)
             return
         }
-        // 否则优先使用地图的 userLocation（强制刷新一次）
-        locationAuthorizer.requestAuthorisation(always: false)
-        if let location = mapUserLocation {
-            centerMap(on: location)
-            return
-        }
-        // 如果没有地图的 userLocation，则使用 CLLocationManager 的位置
+        
+        // 检查位置权限
         let authStatus = locationAuthorizer.authorisationStatus
         if authStatus == .denied || authStatus == .restricted {
             errorMessage = "位置权限被拒绝。\n请前往：设置 → 隐私与安全 → 定位服务 → Geranium\n选择\"使用 App 期间\"以启用定位功能。"
@@ -543,10 +547,26 @@ final class MapViewModel: ObservableObject {
             locationAuthorizer.requestAuthorisation(always: false)
             return
         }
-        if let location = locationAuthorizer.currentLocation {
-            centerMap(on: location.coordinate)
+        
+        // 强制请求新的位置更新
+        locationAuthorizer.requestAuthorisation(always: false)
+        
+        // 优先使用地图的 userLocation（这是 MKMapView 实时更新的真实位置）
+        if let location = mapUserLocation {
+            NSLog("📍 使用地图 userLocation: \(location.latitude), \(location.longitude)")
+            centerMap(on: location)
+            return
         }
-        // 如果还没有位置数据，静默等待，不显示提示
+        
+        // 其次使用 CLLocationManager 的位置
+        if let location = locationAuthorizer.currentLocation {
+            NSLog("📍 使用 CLLocationManager 位置")
+            centerMap(on: location.coordinate)
+            return
+        }
+        
+        // 如果还没有位置数据，显示提示
+        NSLog("⚠️ 暂时无法获取位置，等待GPS...")
     }
 
     private func startSpoofing(point: LocationPoint, bookmark: Bookmark?) {
