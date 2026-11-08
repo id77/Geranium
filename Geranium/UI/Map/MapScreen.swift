@@ -214,16 +214,8 @@ private struct MapControlPanel: View {
                 }
             }
 
-            Button(action: viewModel.toggleSpoofing) {
-                Text(viewModel.primaryButtonTitle)
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(viewModel.primaryButtonDisabled ? Color.gray.opacity(0.3) : Color.accentColor)
-                    .foregroundColor(viewModel.primaryButtonDisabled ? .secondary : .white)
-                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            }
-            .disabled(viewModel.primaryButtonDisabled)
+            simulationActions
+                .animation(.spring(response: 0.35, dampingFraction: 0.82), value: viewModel.canSwitchSpoofingLocation)
 
         }
         .padding()
@@ -247,6 +239,63 @@ private struct MapControlPanel: View {
 
         // 否则显示"当前选点"
         return "当前选点"
+    }
+
+    @ViewBuilder
+    private var simulationActions: some View {
+        if viewModel.canSwitchSpoofingLocation {
+            HStack(spacing: 10) {
+                simulationButton(
+                    title: "停止模拟",
+                    systemImage: "stop.fill",
+                    background: Color.red.opacity(0.9),
+                    action: viewModel.stopSpoofing
+                )
+
+                simulationButton(
+                    title: "切换模拟",
+                    systemImage: "arrow.triangle.2.circlepath",
+                    background: .blue,
+                    action: viewModel.switchSpoofingLocation
+                )
+            }
+            .transition(.asymmetric(
+                insertion: .move(edge: .trailing).combined(with: .opacity),
+                removal: .move(edge: .trailing).combined(with: .opacity)
+            ))
+        } else {
+            Button(action: viewModel.toggleSpoofing) {
+                Text(viewModel.primaryButtonTitle)
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(viewModel.primaryButtonDisabled ? Color.gray.opacity(0.3) : Color.accentColor)
+                    .foregroundColor(viewModel.primaryButtonDisabled ? .secondary : .white)
+                    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+            }
+            .disabled(viewModel.primaryButtonDisabled)
+            .transition(.asymmetric(
+                insertion: .move(edge: .leading).combined(with: .opacity),
+                removal: .move(edge: .leading).combined(with: .opacity)
+            ))
+        }
+    }
+
+    private func simulationButton(
+        title: String,
+        systemImage: String,
+        background: Color,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(.headline)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .foregroundStyle(.white)
+                .background(background, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .buttonStyle(.plain)
     }
 }
 

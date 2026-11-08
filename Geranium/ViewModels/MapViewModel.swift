@@ -60,6 +60,15 @@ final class MapViewModel: ObservableObject {
         return selectedLocation == nil
     }
 
+    var canSwitchSpoofingLocation: Bool {
+        guard let selectedLocation, let activeLocation = engine.session.activePoint else {
+            return false
+        }
+
+        return abs(selectedLocation.latitude - activeLocation.latitude) > 0.000_000_1 ||
+            abs(selectedLocation.longitude - activeLocation.longitude) > 0.000_000_1
+    }
+
     var activeLocation: LocationPoint? {
         engine.session.activePoint
     }
@@ -119,8 +128,7 @@ final class MapViewModel: ObservableObject {
                 if !session.isActive {
                     bookmarkStore.markAsLastUsed(nil)
                 }
-                // 不需要手动调用 objectWillChange.send()
-                // SwiftUI 会自动检测 engine.session 的变化并刷新依赖它的计算属性
+                self.objectWillChange.send()
             }
             .store(in: &cancellables)
 
@@ -316,6 +324,10 @@ final class MapViewModel: ObservableObject {
             centerMap(on: selectedLocation.coordinate)
         }
         startSpoofing(point: selectedLocation, bookmark: nil)
+    }
+
+    func switchSpoofingLocation() {
+        startSpoofingSelected()
     }
 
     func focus(on bookmark: Bookmark, autoStartOverride: Bool? = nil) {
