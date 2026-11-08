@@ -31,7 +31,9 @@ jobs:
           cd $HOME/theos/sdks
           if [ ! -d "iPhoneOS14.5.sdk" ]; then
             curl -LO https://github.com/theos/sdks/archive/master.zip
-            unzip -q master.zip
+            if ! unzip -q master.zip; then
+              rm -rf sdks-master/iPhoneOS14.5.sdk
+            fi
             mv sdks-master/iPhoneOS14.5.sdk ./ 2>/dev/null || true
             if [ ! -d "iPhoneOS14.5.sdk" ]; then
               # Fallback: use Xcode's SDK
