@@ -7,3 +7,4 @@ Geranium.xcodeproj/project.xcworkspace/xcuserdata/cclerc.xcuserdatad/UserInterfa
 build/*
 build/
 *.entitlements
+.alma-snapshots
