@@ -44,6 +44,9 @@ struct MapScreen: View {
             }
             .ignoresSafeArea(.keyboard)
 
+            FloatingTimeButton()
+                .ignoresSafeArea(.keyboard)
+
             FloatingSearchButton(action: {
                 searchFocused = true
             })
@@ -318,6 +321,48 @@ private struct FloatingAddButton: View {
                 .padding(.trailing, 20)
                 .padding(.bottom, 125)
             }
+        }
+    }
+}
+
+private struct FloatingTimeButton: View {
+    @State private var showGuidance = false
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: openDateAndTimeSettings) {
+                    Image(systemName: "clock")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .padding(14)
+                        .background(Color.accentColor, in: Circle())
+                        .shadow(color: .black.opacity(0.25), radius: 10, y: 4)
+                }
+                .accessibilityLabel("日期与时间设置")
+                .padding(.trailing, 20)
+                .padding(.bottom, 305)
+            }
+        }
+        .alert(isPresented: $showGuidance) {
+            Alert(
+                title: Text("无法打开日期与时间"),
+                message: Text("请手动打开“设置 → 通用 → 日期与时间”。"),
+                dismissButton: .default(Text("知道了"))
+            )
+        }
+    }
+
+    private func openDateAndTimeSettings() {
+        // Settings deep links are undocumented and may stop working on any iOS version.
+        guard let url = URL(string: "App-prefs:General&path=DATE_AND_TIME") else {
+            showGuidance = true
+            return
+        }
+        UIApplication.shared.open(url, options: [:]) { opened in
+            if !opened { showGuidance = true }
         }
     }
 }
